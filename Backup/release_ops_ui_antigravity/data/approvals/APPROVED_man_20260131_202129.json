@@ -1,0 +1,21 @@
+{
+  "approval_id": "APPROVED_man_20260131_202129",
+  "environment": "CIT",
+  "release_type": "FIX",
+  "base_branch": "release/develop",
+  "base_commit": "19e1c2a20a0eeba0a5e7ab3cb77ec35c13290f89",
+  "approved_files": {
+    "cust_fix.sql": "b38532f2f12f4fdc6ea7b0c3dbfd1055e7deaa7ce68b0650854fcd9b15bc1f3a"
+  },
+  "approved_at": "2026-01-31T20:21:29.303149+00:00",
+  "release_jira": "BANKING-131312",
+  "cluster": "ssa",
+  "shared_path": "C:\\Users\\loges\\OneDrive\\Desktop\\Shared_path\\BANKING-14",
+  "search_tag": "BANKING-131313",
+  "consumed": true,
+  "consumed_at": "2026-01-31T20:22:40.692754+00:00",
+  "revoked": false,
+  "revoked_at": null,
+  "revoked_by": null,
+  "revoke_reason": null
+}

@@ -1,0 +1,18 @@
+{
+  "approval_id": "APPROVED_Approved_20260126_210109",
+  "environment": "CIT",
+  "release_type": "FULL",
+  "base_branch": "release/develop",
+  "base_commit": "7d8d11b743b9c3bb9fc34e6b503ddaf812dc65d0",
+  "approved_files": {
+    "pljson_printer_package.prc.sql": "4cfac5301095ffd913809f564eee49e0ef8552e816080049099501cc824607ad",
+    "pljson_type_impl.sql.sql": "b60789e962663249d1541092ee2107fc60aac1791889aaf3fd9c15098016cb15"
+  },
+  "approved_at": "2026-01-26T21:01:09.694315+00:00",
+  "release_jira": "BANKING-131311",
+  "cluster": "ssa",
+  "shared_path": "C:\\Users\\loges\\OneDrive\\Desktop\\Shared_path",
+  "search_tag": "BANKING-101010",
+  "consumed": false,
+  "consumed_at": null
+}

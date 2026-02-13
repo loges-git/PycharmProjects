@@ -1,0 +1,7 @@
+2026-02-10 00:18:13,068 - release_ops - INFO - Starting release execution for BANKING-131312
+2026-02-10 00:18:13,176 - release_ops - INFO - Working tree is clean
+2026-02-10 00:18:13,948 - release_ops - INFO - No drift detected
+2026-02-10 00:18:14,040 - release_ops - INFO - Checked out base branch: release/develop
+2026-02-10 00:18:14,166 - release_ops - INFO - Created/checked out release branch: feature/BANKING-131312
+2026-02-10 00:18:14,171 - release_ops - INFO - Applied file: cust_fix.sql
+2026-02-10 00:18:14,298 - release_ops - WARNING - Nothing to commit - release skipped.

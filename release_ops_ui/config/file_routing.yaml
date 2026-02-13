@@ -1,0 +1,12 @@
+mappings:
+  .prc: prc
+  .sql: sql
+  .vw:  vw
+  .inc: oneoff
+  .dbp: oneoff
+  .trg: trgall
+  .cnv: cnv
+  .fnc: fnc
+  .pck: pck
+  .tpb: tpb
+  .tps: tps

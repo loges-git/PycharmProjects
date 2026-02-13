@@ -1,0 +1,46 @@
+
+sit:
+  path: C:/Git/UAT/dev_flex1
+
+cee_19c_cit:
+  platform: bitbucket
+  path: C:/Git/UAT/cee_19c_cit
+  base_branch: master
+  clone_url: ssh://git@bitbucket.org/org/cee_19c_cit.git
+
+cist:
+  platform: bitbucket
+  path: C:/Git/UAT/cist
+  base_branch: master
+  clone_url: ssh://git@bitbucket.org/org/cist.git
+
+mena_19c_cit:
+  platform: bitbucket
+  path: C:/Git/UAT/mena_19c_cit
+  base_branch: master
+  clone_url: ssh://git@bitbucket.org/org/mena_19c_cit.git
+
+pol_19c_cit:
+  platform: bitbucket
+  path: C:/Git/UAT/pol_19c_cit
+  base_branch: master
+  clone_url: ssh://git@bitbucket.org/org/pol_19c_cit.git
+
+
+ssa:
+  platform: github
+  path: C:/Git/UAT/ssa
+  base_branch: release/develop
+  clone_url: git@github.com:org/ssa.git
+
+weu:
+  platform: github
+  path: C:/Git/UAT/weu
+  base_branch: release/develop
+  clone_url: git@github.com:org/weu.git
+
+ldn:
+  platform: github
+  path: C:/Git/UAT/ldn
+  base_branch: release/develop
+  clone_url: git@github.com:org/ldn.git

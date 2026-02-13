@@ -1,0 +1,183 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.2, pytest-9.0.2, pluggy-1.6.0 -- C:\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\loges\PycharmProjects\release_ops_ui
+collecting ... collected 11 items
+
+tests/test_approval_service.py::test_create_approval_record ERROR        [  9%]
+tests/test_approval_service.py::test_load_approval_record ERROR          [ 18%]
+tests/test_approval_service.py::test_load_approval_record_not_found PASSED [ 27%]
+tests/test_approval_service.py::test_mark_approval_consumed ERROR        [ 36%]
+tests/test_approval_service.py::test_revoke_approval ERROR               [ 45%]
+tests/test_approval_service.py::test_cannot_revoke_consumed_approval ERROR [ 54%]
+tests/test_git_service.py::test_get_remote_branch_head_success PASSED    [ 63%]
+tests/test_git_service.py::test_get_remote_branch_head_failure PASSED    [ 72%]
+tests/test_git_service.py::test_get_file_blob_hash PASSED                [ 81%]
+tests/test_ui_integration_flows.py::test_record_approval_button_flow FAILED [ 90%]
+tests/test_ui_integration_flows.py::test_load_approval_button_flow FAILED [100%]
+
+=================================== ERRORS ====================================
+________________ ERROR at setup of test_create_approval_record ________________
+
+    @pytest.fixture
+    def sample_approval_data():
+        return {
+            "approval_id": "APPROVED_Test_User_20260101_120000",
+            "environment": Environment.CIT,
+>           "release_type": ReleaseType.GCP,
+                            ^^^^^^^^^^^^^^^
+            "base_branch": "develop",
+            "base_commit": "abc1234",
+            "approved_files": {"file1.txt": "hash1"},
+            "release_jira": "JIRA-123",
+            "cluster": "test-cluster",
+            "shared_path": "/tmp/shared",
+            "search_tag": "test-tag"
+        }
+E       AttributeError: type object 'ReleaseType' has no attribute 'GCP'
+
+tests\test_approval_service.py:27: AttributeError
+_________________ ERROR at setup of test_load_approval_record _________________
+
+    @pytest.fixture
+    def sample_approval_data():
+        return {
+            "approval_id": "APPROVED_Test_User_20260101_120000",
+            "environment": Environment.CIT,
+>           "release_type": ReleaseType.GCP,
+                            ^^^^^^^^^^^^^^^
+            "base_branch": "develop",
+            "base_commit": "abc1234",
+            "approved_files": {"file1.txt": "hash1"},
+            "release_jira": "JIRA-123",
+            "cluster": "test-cluster",
+            "shared_path": "/tmp/shared",
+            "search_tag": "test-tag"
+        }
+E       AttributeError: type object 'ReleaseType' has no attribute 'GCP'
+
+tests\test_approval_service.py:27: AttributeError
+________________ ERROR at setup of test_mark_approval_consumed ________________
+
+    @pytest.fixture
+    def sample_approval_data():
+        return {
+            "approval_id": "APPROVED_Test_User_20260101_120000",
+            "environment": Environment.CIT,
+>           "release_type": ReleaseType.GCP,
+                            ^^^^^^^^^^^^^^^
+            "base_branch": "develop",
+            "base_commit": "abc1234",
+            "approved_files": {"file1.txt": "hash1"},
+            "release_jira": "JIRA-123",
+            "cluster": "test-cluster",
+            "shared_path": "/tmp/shared",
+            "search_tag": "test-tag"
+        }
+E       AttributeError: type object 'ReleaseType' has no attribute 'GCP'
+
+tests\test_approval_service.py:27: AttributeError
+___________________ ERROR at setup of test_revoke_approval ____________________
+
+    @pytest.fixture
+    def sample_approval_data():
+        return {
+            "approval_id": "APPROVED_Test_User_20260101_120000",
+            "environment": Environment.CIT,
+>           "release_type": ReleaseType.GCP,
+                            ^^^^^^^^^^^^^^^
+            "base_branch": "develop",
+            "base_commit": "abc1234",
+            "approved_files": {"file1.txt": "hash1"},
+            "release_jira": "JIRA-123",
+            "cluster": "test-cluster",
+            "shared_path": "/tmp/shared",
+            "search_tag": "test-tag"
+        }
+E       AttributeError: type object 'ReleaseType' has no attribute 'GCP'
+
+tests\test_approval_service.py:27: AttributeError
+___________ ERROR at setup of test_cannot_revoke_consumed_approval ____________
+
+    @pytest.fixture
+    def sample_approval_data():
+        return {
+            "approval_id": "APPROVED_Test_User_20260101_120000",
+            "environment": Environment.CIT,
+>           "release_type": ReleaseType.GCP,
+                            ^^^^^^^^^^^^^^^
+            "base_branch": "develop",
+            "base_commit": "abc1234",
+            "approved_files": {"file1.txt": "hash1"},
+            "release_jira": "JIRA-123",
+            "cluster": "test-cluster",
+            "shared_path": "/tmp/shared",
+            "search_tag": "test-tag"
+        }
+E       AttributeError: type object 'ReleaseType' has no attribute 'GCP'
+
+tests\test_approval_service.py:27: AttributeError
+================================== FAILURES ===================================
+______________________ test_record_approval_button_flow _______________________
+
+mock_get_head = <MagicMock name='get_remote_branch_head' id='3014978803696'>
+tmp_path = WindowsPath('C:/Users/loges/AppData/Local/Temp/pytest-of-loges/pytest-2/test_record_approval_button_fl0')
+
+    @patch("services.git_service.get_remote_branch_head")
+    def test_record_approval_button_flow(mock_get_head, tmp_path):
+        # 1. Setup UI context (simulated)
+        approval_dir = tmp_path / "approvals"
+        repo_path = tmp_path / "repo"
+    
+        mock_get_head.return_value = "commit_hash_123"
+    
+        # 2. Simulate User clicking "Record Approval"
+        # This triggers create_approval_record with gathered context
+        approval_file = create_approval_record(
+            approval_dir=approval_dir,
+            approval_id="APPROVED_Manager_Test_123",
+            environment=Environment.CIT,
+>           release_type=ReleaseType.GCP,
+                         ^^^^^^^^^^^^^^^
+            base_branch="develop",
+            base_commit=mock_get_head(repo_path, "develop"),  # UI calls this
+            approved_files={"script.sql": "hash_abc"},
+            release_jira="JIRA-100",
+            cluster="test-cluster-01",
+            shared_path=str(tmp_path / "shared"),
+            search_tag="tag-100"
+        )
+E       AttributeError: type object 'ReleaseType' has no attribute 'GCP'
+
+tests\test_ui_integration_flows.py:22: AttributeError
+_______________________ test_load_approval_button_flow ________________________
+
+tmp_path = WindowsPath('C:/Users/loges/AppData/Local/Temp/pytest-of-loges/pytest-2/test_load_approval_button_flow0')
+
+    def test_load_approval_button_flow(tmp_path):
+        # 1. Setup existing external approval
+        approval_dir = tmp_path / "approvals"
+        create_approval_record(
+            approval_dir=approval_dir,
+            approval_id="APPROVED_External_1",
+            environment=Environment.CIT,
+>           release_type=ReleaseType.GCP,
+                         ^^^^^^^^^^^^^^^
+            base_branch="develop",
+            base_commit="hash_xyz",
+            approved_files={"file.sql": "hash_1"},
+            release_jira="JIRA-200",
+            cluster="cluster-A"
+        )
+E       AttributeError: type object 'ReleaseType' has no attribute 'GCP'
+
+tests\test_ui_integration_flows.py:48: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/test_ui_integration_flows.py::test_record_approval_button_flow
+FAILED tests/test_ui_integration_flows.py::test_load_approval_button_flow - A...
+ERROR tests/test_approval_service.py::test_create_approval_record - Attribute...
+ERROR tests/test_approval_service.py::test_load_approval_record - AttributeEr...
+ERROR tests/test_approval_service.py::test_mark_approval_consumed - Attribute...
+ERROR tests/test_approval_service.py::test_revoke_approval - AttributeError: ...
+ERROR tests/test_approval_service.py::test_cannot_revoke_consumed_approval - ...
+==================== 2 failed, 4 passed, 5 errors in 0.17s ====================

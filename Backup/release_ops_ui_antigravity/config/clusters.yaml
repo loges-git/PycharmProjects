@@ -1,0 +1,63 @@
+clusters:
+  ssa:
+    platform: github
+    repo_url: https://github.com/loges-git/ssa.git
+    local_path: C:/Git/ssa
+    branches:
+      CIT: release/develop
+      BFX: release/release
+      PROD: main
+
+  ldn:
+    platform: github
+    repo_url: git@github.com:org/ldn.git
+    local_path: C:/Git/ldn
+    branches:
+      CIT: release/develop
+      BFX: release/release
+      PROD: main
+
+  weu:
+    platform: github
+    repo_url: git@github.com:org/weu.git
+    local_path: C:/Git/weu
+    branches:
+      CIT: release/develop
+      BFX: release/release
+      PROD: main
+
+  cee:
+    platform: bitbucket
+    repo_url: ssh://git@bitbucket.org/org/cee.git
+    local_path: C:/Git/cee
+    branches:
+      CIT: master
+      BFX: release/release
+      PROD: master
+
+  cist:
+    platform: bitbucket
+    repo_url: ssh://git@bitbucket.org/org/cist.git
+    local_path: C:/Git/cist
+    branches:
+      CIT: master
+      BFX: release/release
+      PROD: master
+
+  mena:
+    platform: bitbucket
+    repo_url: https://github.com/loges-git/mena_19c_cit.git
+    local_path: C:/Git/mena
+    branches:
+      CIT: master
+      BFX: release/release
+      PROD: master
+
+  pol:
+    platform: bitbucket
+    repo_url: ssh://git@bitbucket.org/org/pol.git
+    local_path: C:/Git/pol
+    branches:
+      CIT: master
+      BFX: release/release
+      PROD: master

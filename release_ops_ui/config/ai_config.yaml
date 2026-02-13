@@ -1,0 +1,39 @@
+# AI Provider Configuration
+# ================================================
+# Edit this file to configure your company's AI API.
+# All AI settings are centralized here.
+# ================================================
+
+# Provider mode: "CUSTOM" | "MOCK"
+# - CUSTOM: Use your company's AI API (configure below)
+# - MOCK: Use built-in mock responses (no API needed)
+mode: CUSTOM
+
+# Your Company AI API Configuration
+api:
+  # Base URL for the AI API endpoint
+  url: "https://your-company-ai.example.com/v1/chat/completions"
+  
+  # API Key (can also be set via AI_API_KEY environment variable)
+  # Leave empty to use environment variable
+  api_key: ""
+  
+  # Model name to use
+  model: "gpt-4"
+  
+  # Request timeout in seconds
+  timeout: 30
+  
+  # Maximum tokens for response
+  max_tokens: 1024
+
+# Request Headers (optional)
+# Add any custom headers your API requires
+headers:
+  Content-Type: "application/json"
+  # X-Custom-Header: "value"
+
+# Retry Configuration
+retry:
+  max_attempts: 3
+  delay_seconds: 2

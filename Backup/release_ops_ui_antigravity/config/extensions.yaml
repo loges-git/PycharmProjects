@@ -1,0 +1,11 @@
+extensions:
+  sql: sql
+  fmb: fmb
+  prc: prc
+  fnc: fnc
+  trg: trgall
+  vw: vw
+  inc: oneoffs
+  sh: sh
+  cnv: cnv
+  ddl: ddl
