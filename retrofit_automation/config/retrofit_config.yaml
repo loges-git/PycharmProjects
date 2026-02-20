@@ -1,0 +1,37 @@
+# -------------------------------------------------------
+# Retrofit Automation Configuration
+# -------------------------------------------------------
+
+# Supported file extensions for retrofit scanning
+supported_extensions:
+  - .sql
+  - .prc
+  - .fnc
+  - .trg
+  - .vw
+  - .sh
+  - .cnv
+  - .inc
+  - .ddl
+
+# Extension → target subfolder mapping
+# Maps each file extension to the subfolder under the target path
+# where files of that type are located.
+#
+# Example:
+#   .prc: "database/procedures"
+#   Means: file "my_proc.prc" in source will be matched against
+#          "<target_path>/database/procedures/my_proc.prc"
+#
+# Leave empty ("") to match by same relative path as source.
+# Set to a subfolder to redirect the lookup.
+folder_mapping:
+  .sql: ""
+  .prc: ""
+  .fnc: ""
+  .trg: ""
+  .vw: ""
+  .sh: ""
+  .cnv: ""
+  .inc: ""
+  .ddl: ""

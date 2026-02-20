@@ -1,39 +1,43 @@
+import logging
 from pathlib import Path
 
+logger = logging.getLogger(__name__)
 
-def create_retro_workspace(banking_number):
+
+def create_retro_workspace(reference_name: str) -> dict:
     """
     Creates review workspace on Desktop:
+
     Retro_auto/
-        feature-BANKING-xxxx/
-            Dev/
-            CIT/
+        <reference_name>/
+            Source/
+            Target/
             Retro/
     """
 
-    banking_number = banking_number.strip()
-    if not banking_number:
-        raise ValueError("BANKING number cannot be empty")
+    reference_name = reference_name.strip()
+    if not reference_name:
+        raise ValueError("Reference name cannot be empty")
 
-    # Windows-safe folder name
-    folder_name = f"feature-{banking_number}"
+    # Windows-safe folder name (replace chars not allowed in folder names)
+    folder_name = reference_name.replace("/", "-").replace("\\", "-")
 
     base_path = Path.home() / "Desktop" / "Retro_auto" / folder_name
     base_path.mkdir(parents=True, exist_ok=True)
 
-    dev_dir = base_path / "Dev"
-    cit_dir = base_path / "CIT"
+    source_dir = base_path / "Source"
+    target_dir = base_path / "Target"
     retro_dir = base_path / "Retro"
 
-    dev_dir.mkdir(exist_ok=True)
-    cit_dir.mkdir(exist_ok=True)
+    source_dir.mkdir(exist_ok=True)
+    target_dir.mkdir(exist_ok=True)
     retro_dir.mkdir(exist_ok=True)
 
-    print(f"📁 Review workspace created at: {base_path}")
+    logger.info("Review workspace created at: %s", base_path)
 
     return {
         "base": base_path,
-        "dev": dev_dir,
-        "cit": cit_dir,
+        "source": source_dir,
+        "target": target_dir,
         "retro": retro_dir,
     }
