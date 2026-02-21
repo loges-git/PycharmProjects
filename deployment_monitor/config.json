@@ -1,0 +1,11 @@
+{
+  "base_audit_path": "C:\\deployment_audit_test",
+  "poll_interval_seconds": 30,
+  "clusters": {
+    "mena": ["FSMHO1U"]
+  },
+  "ignorable_errors": [
+    "ORA-00001",
+    "ORA-00955"
+  ]
+}
