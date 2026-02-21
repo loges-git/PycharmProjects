@@ -17,6 +17,7 @@ class DeploymentValidator:
 
         self.detected_errors: List[str] = []
         self.filtered_errors: List[str] = []
+        self.error_details: List[Dict] = []  # Store detailed error info
 
         self.invalid_mismatch: bool = False
         self.execution_mismatch: bool = False
@@ -26,8 +27,9 @@ class DeploymentValidator:
     # ==========================================================
 
     @staticmethod
-    def _extract_errors_from_file(file_path: Path) -> List[str]:
-        errors: List[str] = []
+    def _extract_errors_from_file(file_path: Path) -> List[Dict]:
+        """Extract error details from log file with code, message, and context."""
+        errors: List[Dict] = []
 
         pattern = re.compile(r"(ORA-\d+|PLS-\d+|compilation errors)", re.IGNORECASE)
 
@@ -35,26 +37,38 @@ class DeploymentValidator:
             for line in f:
                 match = pattern.search(line)
                 if match:
-                    errors.append(match.group(0).upper())
+                    error_code = match.group(0).upper()
+                    errors.append({
+                        "code": error_code,
+                        "message": line.strip(),
+                        "file": file_path.name
+                    })
 
         return errors
 
     def validate_errors(self) -> bool:
         # Main log errors
-        self.detected_errors.extend(
-            self._extract_errors_from_file(self.main_log_path)
-        )
+        main_errors = self._extract_errors_from_file(self.main_log_path)
+        self.detected_errors.extend([e["code"] for e in main_errors])
+        self.error_details.extend(main_errors)
 
         # oracle_error file errors (if exists)
         if self.error_log_path is not None:
-            self.detected_errors.extend(
-                self._extract_errors_from_file(self.error_log_path)
-            )
+            error_log_errors = self._extract_errors_from_file(self.error_log_path)
+            self.detected_errors.extend([e["code"] for e in error_log_errors])
+            self.error_details.extend(error_log_errors)
 
         # Remove ignorable errors
         self.filtered_errors = [
             err for err in self.detected_errors
             if err not in self.ignorable_errors
+        ]
+        
+        # Also filter error_details
+        filtered_error_codes = set(self.filtered_errors)
+        self.error_details = [
+            e for e in self.error_details
+            if e["code"] in filtered_error_codes
         ]
 
         return len(self.filtered_errors) == 0
@@ -167,6 +181,7 @@ class DeploymentValidator:
             "message": message,
             "detected_errors": self.detected_errors,
             "filtered_errors": self.filtered_errors,
+            "error_details": self.error_details,
             "invalid_mismatch": self.invalid_mismatch,
             "execution_mismatch": self.execution_mismatch
         }

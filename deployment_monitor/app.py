@@ -184,6 +184,13 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                 st.session_state.last_status = status
                 add_log(f"Status: {status}")
                 add_log(f"Details: {message}")
+                
+                # Display detailed error information
+                if result.get("error_details"):
+                    add_log("━ Error Details ━")
+                    for error in result["error_details"]:
+                        add_log(f"  • File: {error['file']} | Code: {error['code']}")
+                        add_log(f"    Message: {error['message'][:100]}...")
 
                 zip_processor.cleanup()
 
