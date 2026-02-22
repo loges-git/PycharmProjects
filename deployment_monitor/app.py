@@ -525,13 +525,18 @@ st.text_area("Logs", log_text, height=300, label_visibility="collapsed")
 # AUTO REFRESH
 # ==========================================================
 
-# Only rerun if service is running AND there are pending messages
-if st.session_state.service_running and not log_queue.empty():
-    debug_log(f"♻️  Service running with {log_queue.qsize()} pending messages, rerunning...")
-    time.sleep(0.5)  # Small delay to batch log messages
+# Check for pending messages: queue OR buffer
+buffer_len = len(_log_buffer)
+session_len = len(st.session_state.logs)
+queue_len = log_queue.qsize()
+has_pending = (not log_queue.empty()) or (buffer_len > session_len)
+
+if st.session_state.service_running and has_pending:
+    debug_log(f"♻️  Service running with messages pending (queue={queue_len}, buffer={buffer_len}, session={session_len}), rerunning...")
+    time.sleep(0.3)  # Batch log messages
     st.rerun()
 elif st.session_state.service_running:
     # Service is running but no new messages - check less frequently
-    debug_log(f"♻️  Service running but queue empty, light rerun after 2s...")
-    time.sleep(2)
+    debug_log(f"♻️  Service running but no pending messages, light rerun after 1.5s...")
+    time.sleep(1.5)
     st.rerun()
