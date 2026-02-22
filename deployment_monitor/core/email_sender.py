@@ -81,8 +81,12 @@ class EmailSender:
             raise
     
     def _validate_templates(self) -> None:
-        """Validate that all templates contain required placeholders."""
-        required_placeholders = {"status", "cluster", "instance"}
+        """Validate that templates contain essential placeholders.
+        
+        Subject: Must have at least cluster and instance
+        Body: Must have status (can have message for details)
+        """
+        import string
         
         # Check subject templates
         if not self.subject_templates:
@@ -92,24 +96,22 @@ class EmailSender:
             if not isinstance(template, str):
                 raise ValueError(f"Subject template for {status} is not a string")
             
-            # Extract placeholders
-            import string
+            # Subject should have cluster and instance at minimum
             placeholders = set(field_name for _, field_name, _, _ in string.Formatter().parse(template) if field_name)
-            missing = required_placeholders - placeholders
+            required = {"cluster", "instance"}
+            missing = required - placeholders
             
             if missing:
-                raise ValueError(f"Subject template for {status} missing required placeholders: {missing}")
+                logger.warning(f"Subject template for {status} missing placeholders: {missing}")
         
         # Check body template
         if not self.body_template:
             raise ValueError("body_template is empty in email_settings")
         
-        import string
         placeholders = set(field_name for _, field_name, _, _ in string.Formatter().parse(self.body_template) if field_name)
-        missing = required_placeholders - placeholders
-        
-        if missing and {"message"} - missing:  # message is optional
-            raise ValueError(f"Body template missing required placeholders: {missing}")
+        # Body should have at least status and message
+        if not ("status" in placeholders or "message" in placeholders):
+            raise ValueError("body_template must have at least {status} or {message} placeholder")
 
     def build_subject(self, status: str, cluster: str, instance: str) -> str:
         """
