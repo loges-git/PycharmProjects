@@ -5,9 +5,6 @@ import json
 import os
 import queue
 from pathlib import Path
-from datetime import datetime
-from collections import deque
-import logging
 
 from core.folder_monitor import FolderMonitor
 from core.msg_processor import MsgProcessor
@@ -19,26 +16,8 @@ from core.cycle_manager import CycleManager
 from core.email_sender import EmailSender
 from styles import load_css
 
-# ===== ROBUST LOGGING SYSTEM =====
-# Thread-safe queue for background thread logging
-log_queue = queue.Queue()
-state_queue = queue.Queue()  # For thread-safe session state updates
-service_stop_event = threading.Event()  # Thread-safe stop signal
-
-# In-memory log buffer (list-based, thread-safe via GIL for appends)
-_log_buffer = deque(maxlen=500)  # Keep last 500 logs in memory
-_log_lock = threading.Lock()
-
-# Debug log file
-DEBUG_LOG_FILE = Path("queue_debug.log")
-
-def debug_log(message: str):
-    """Write to file for debugging (non-blocking)"""
-    try:
-        with open(DEBUG_LOG_FILE, "a", encoding="utf-8") as f:
-            f.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] {message}\n")
-    except:
-        pass  # Silently fail if writing fails
+# Import shared state from SEPARATE MODULE (persists across Streamlit reruns)
+import shared_state
 
 
 # ==========================================================
@@ -59,103 +38,17 @@ st.title("🚀 Deployment Log Verification Automation")
 
 if "service_running" not in st.session_state:
     st.session_state.service_running = False
-    debug_log("🔧 Initialized: service_running = False")
 
 if "logs" not in st.session_state:
     st.session_state.logs = []
-    # Sync with in-memory buffer
-    with _log_lock:
-        st.session_state.logs = list(_log_buffer)
-    debug_log("🔧 Initialized: logs = []")
+    # Sync with buffer in case service was already running (e.g. page refresh)
+    st.session_state.logs = shared_state.get_all_logs()
 
 if "last_status" not in st.session_state:
     st.session_state.last_status = None
-    debug_log("🔧 Initialized: last_status = None")
 
 if "last_sound_status" not in st.session_state:
     st.session_state.last_sound_status = None
-    debug_log("🔧 Initialized: last_sound_status = None")
-
-
-# ==========================================================
-# LOG FUNCTION (THREAD-SAFE) - DUAL WRITE SYSTEM
-# ==========================================================
-
-def add_log(message: str):
-    """Add log message via dual system: queue + buffer"""
-    timestamp = time.strftime("%H:%M:%S")
-    formatted_msg = f"[{timestamp}] {message}"
-    
-    try:
-        # Write to queue (for UI updates)
-        log_queue.put(formatted_msg)
-        debug_log(f"⬅️ QUEUE.PUT (depth={log_queue.qsize()}): {message[:40]}")
-    except Exception as e:
-        debug_log(f"⚠️ QUEUE.PUT FAILED: {str(e)}")
-    
-    try:
-        # Write to in-memory buffer directly
-        with _log_lock:
-            _log_buffer.append(formatted_msg)
-        debug_log(f"📝 BUFFER.APPEND (len={len(_log_buffer)}): {message[:40]}")
-    except Exception as e:
-        debug_log(f"⚠️ BUFFER.APPEND FAILED: {str(e)}")
-
-
-def flush_log_queue():
-    """Process all messages from queue and add to session state (MAIN THREAD ONLY)"""
-    count = 0
-    flushed = []
-    
-    # Flush from queue
-    while not log_queue.empty():
-        try:
-            msg = log_queue.get_nowait()
-            flushed.append(msg)
-            count += 1
-        except queue.Empty:
-            break
-    
-    # Flush from buffer
-    with _log_lock:
-        if len(_log_buffer) > 0:
-            buffer_list = list(_log_buffer)
-            if len(buffer_list) > len(st.session_state.logs):
-                # We have new logs in buffer
-                st.session_state.logs = buffer_list
-                debug_log(f"📦 SYNCED from buffer: {len(buffer_list)} total logs")
-    
-    # Add  queue messages
-    for msg in flushed:
-        if msg not in st.session_state.logs:  # Avoid duplicates
-            st.session_state.logs.append(msg)
-        debug_log(f"➡️ FLUSHED: {msg[:50]}")
-    
-    if count > 0:
-        debug_log(f"✅ FLUSH COMPLETE: {count} messages from queue")
-    
-    return count
-
-
-def set_status(status: str):
-    """Queue a status update from background thread (THREAD-SAFE)"""
-    state_queue.put(("last_status", status))
-    debug_log(f"📤 Queued status update: {status}")
-
-
-def flush_state_queue():
-    """Process all state updates from queue (MAIN THREAD ONLY)"""
-    count = 0
-    while not state_queue.empty():
-        try:
-            key, value = state_queue.get_nowait()
-            st.session_state[key] = value
-            debug_log(f"✅ State update: {key} = {value}")
-            count += 1
-        except queue.Empty:
-            break
-    if count > 0:
-        debug_log(f"✅ STATE FLUSH: {count} updates applied")
 
 
 # ==========================================================
@@ -207,131 +100,87 @@ st.markdown('</div>', unsafe_allow_html=True)
 # BACKGROUND SERVICE FUNCTION
 # ==========================================================
 
-def run_service(incoming_path_str: str, base_path_str: str, interval: int):
-    """Background thread service for monitoring and processing deployments."""
+def run_service(incoming_path_str: str, base_path_str: str, interval: int, send_email: bool = False):
+    """Background thread service for monitoring and processing deployments.
+    
+    NOTE: This runs in a background thread. It must NOT access st.session_state
+    or any Streamlit API. All communication with the UI happens through shared_state.
+    
+    Args:
+        incoming_path_str: Path to incoming folder
+        base_path_str: Path to base audit folder
+        interval: Poll interval in seconds
+        send_email: Whether to send email notifications (captured from UI at start time)
+    """
+    log = shared_state.add_log  # Local alias for convenience
+    stop = shared_state.stop_event  # Local alias
+    
     try:
-        add_log("🔍 Background service thread started...")
-        debug_log(f"THREAD: run_service() called with incoming={incoming_path_str}, base={base_path_str}, interval={interval}")
+        log("🔍 Background service thread started...")
         
         incoming_path = Path(incoming_path_str)
-        debug_log(f"THREAD: Created incoming_path object: {incoming_path}")
-        
         base_audit_path = Path(base_path_str)
-        debug_log(f"THREAD: Created base_audit_path object: {base_audit_path}")
-        
         config_path = Path("config.json")
-        debug_log(f"THREAD: Created config_path object: {config_path}")
 
-        debug_log(f"THREAD: config_path.exists() = {config_path.exists()}")
         if not config_path.exists():
-            add_log("❌ config.json not found.")
-            debug_log("THREAD: Returning due to missing config.json")
+            log("❌ config.json not found.")
             return
 
-        debug_log(f"THREAD: incoming_path.exists() = {incoming_path.exists()}")
         if not incoming_path.exists():
-            add_log(f"❌ Incoming path not found: {incoming_path}")
-            debug_log(f"THREAD: Returning due to missing incoming path: {incoming_path}")
+            log(f"❌ Incoming path not found: {incoming_path}")
             return
 
-        debug_log(f"THREAD: base_audit_path.exists() = {base_audit_path.exists()}")
         if not base_audit_path.exists():
-            add_log(f"❌ Base audit path not found: {base_audit_path}")
-            debug_log(f"THREAD: Returning due to missing base path: {base_audit_path}")
+            log(f"❌ Base audit path not found: {base_audit_path}")
             return
 
-        debug_log("THREAD: All paths validated, loading config...")
         with open(config_path, "r", encoding="utf-8") as f:
             config = json.load(f)
-        debug_log("THREAD: Config loaded successfully")
 
-        debug_log("THREAD: Creating CycleManager...")
         cycle_manager = CycleManager(base_audit_path)
-        debug_log("THREAD: Generating cycle name...")
         cycle_name = cycle_manager.generate_cycle_name()
-        debug_log(f"THREAD: Cycle name generated: {cycle_name}")
-        debug_log("THREAD: Ensuring cycle folder...")
         cycle_manager.ensure_cycle_folder(cycle_name)
-        debug_log("THREAD: Cycle folder ensured")
 
-        debug_log("THREAD: Creating Archiver...")
         archiver = Archiver(base_audit_path, cycle_name)
-        debug_log("THREAD: Archiver created")
-        
-        debug_log(f"THREAD: Creating FolderMonitor for {incoming_path} with interval {interval}...")
         monitor = FolderMonitor(incoming_path, poll_interval=interval)
-        debug_log("THREAD: FolderMonitor created")
 
-        add_log("✅ Service Started (Polling Method).")
-        debug_log("THREAD: Service setup complete, about to enter polling loop")
+        log("✅ Service Started (Polling Method).")
 
         for file in monitor.start_polling():
-            debug_log(f"THREAD: Got file from polling: {file.name}")
-
-            if service_stop_event.is_set():
-                add_log("🛑 Service Stopped.")
-                debug_log("THREAD: Stop event detected, breaking")
+            if stop.is_set():
+                log("🛑 Service Stopped.")
                 break
 
             try:
-                debug_log(f"THREAD: Processing file: {file.name}")
-                debug_log(f"THREAD: About to call add_log for 'Detected file'")
-                add_log(f"Detected file: {file.name}")
-                debug_log(f"THREAD: Called add_log for 'Detected file'")
+                log(f"📄 Detected file: {file.name}")
 
                 zip_files_to_process = []
-                debug_log(f"THREAD: Created zip_files_to_process list")
-
                 file_suffix = file.suffix.lower()
-                debug_log(f"THREAD: file.suffix.lower() = {file_suffix}")
 
                 if file_suffix == ".msg":
-                    debug_log(f"THREAD: File is .msg, extracting ZIP...")
-                    add_log("Extracting ZIP from MSG...")
+                    log("📨 Extracting ZIP from MSG...")
                     msg_processor = MsgProcessor(file, incoming_path)
                     extracted_zips = msg_processor.extract_zip_attachments()
                     zip_files_to_process.extend(extracted_zips)
-                    debug_log(f"THREAD: Extracted {len(extracted_zips)} ZIPs from MSG")
 
                 elif file_suffix == ".zip":
-                    debug_log(f"THREAD: File is .zip, adding to processing list")
                     zip_files_to_process.append(file)
 
-                debug_log(f"THREAD: Will process {len(zip_files_to_process)} ZIP files")
-
                 for zip_path in zip_files_to_process:
-                    debug_log(f"THREAD: Processing ZIP: {zip_path.name}")
+                    log(f"📦 Processing ZIP: {zip_path.name}")
 
-                    debug_log(f"THREAD: About to call add_log for 'Processing ZIP'")
-                    add_log(f"Processing ZIP: {zip_path.name}")
-                    debug_log(f"THREAD: Called add_log for 'Processing ZIP'")
-
-                    debug_log(f"THREAD: Creating ZipProcessor...")
                     zip_processor = ZipProcessor(zip_path, config)
-                    debug_log(f"THREAD: ZipProcessor created, calling process()...")
-                    
                     metadata = zip_processor.process()
-                    debug_log(f"THREAD: ZipProcessor.process() returned, metadata keys: {list(metadata.keys())[:3]}")
 
-                    debug_log(f"THREAD: Creating DeploymentValidator...")
                     validator = DeploymentValidator(metadata, config)
-                    debug_log(f"THREAD: Calling validator.validate_all()...")
-                    
                     result = validator.validate_all()
-                    debug_log(f"THREAD: validator.validate_all() returned")
 
                     status = result["status"]
                     message = result["message"]
-                    debug_log(f"THREAD: Extracted status={status}, message={message[:50]}")
 
-                    debug_log(f"THREAD: Creating JiraExtractor...")
                     jira_extractor = JiraExtractor(metadata["main_log_path"])
-                    debug_log(f"THREAD: Calling jira_extractor.extract()...")
-                    
                     jira_units = jira_extractor.extract()
-                    debug_log(f"THREAD: jira_extractor returned {len(jira_units)} units")
 
-                    debug_log(f"THREAD: Calling archiver.archive()...")
                     archiver.archive(
                         status=status,
                         cluster=metadata["cluster"],
@@ -339,39 +188,26 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                         original_zip_path=zip_path,
                         jira_units=jira_units
                     )
-                    debug_log(f"THREAD: archiver.archive() complete")
 
-                    debug_log(f"THREAD: Calling set_status({status})...")
-                    set_status(status)  # Thread-safe status update
-                    debug_log(f"THREAD: set_status complete")
-                    
-                    debug_log(f"THREAD: About to call add_log for Status")
-                    add_log(f"Status: {status}")
-                    debug_log(f"THREAD: Called add_log for Status")
-                    
-                    debug_log(f"THREAD: About to call add_log for Details")
-                    add_log(f"Details: {message}")
-                    debug_log(f"THREAD: Called add_log for Details")
+                    shared_state.set_status(status)  # Thread-safe status update
+                    log(f"Status: {status}")
+                    log(f"Details: {message}")
                     
                     # Display detailed error information
                     if result.get("error_details"):
-                        debug_log(f"THREAD: Found {len(result['error_details'])} error details")
-                        add_log("━ Error Details ━")
+                        log("━ Error Details ━")
                         for error in result["error_details"]:
-                            add_log(f"  • Unit: {error['unit']} | Code: {error['code']}")
-                            add_log(f"    Message: {error['message'][:100]}...")
+                            log(f"  • Unit: {error['unit']} | Code: {error['code']}")
+                            log(f"    Message: {error['message'][:100]}...")
                     
                     # Display invalid objects created
                     if result.get("invalid_objects"):
-                        debug_log(f"THREAD: Found {len(result['invalid_objects'])} invalid objects")
-                        add_log("━ Invalid Objects Created ━")
+                        log("━ Invalid Objects Created ━")
                         for invalid in result["invalid_objects"]:
-                            add_log(f"  • Object: {invalid['object']} (Type: {invalid['type']})")
+                            log(f"  • Object: {invalid['object']} (Type: {invalid['type']})")
                     
-                    # Send email notification if enabled
-                    debug_log(f"THREAD: Checking email notification setting...")
-                    if st.session_state.get("send_email_notification", False):
-                        debug_log(f"THREAD: Email is enabled, sending...")
+                    # Send email notification if enabled (flag captured at start time)
+                    if send_email:
                         try:
                             email_sender = EmailSender(config)
                             success, email_msg = email_sender.send_deployment_summary(
@@ -380,38 +216,27 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                                 instance=metadata["instance"],
                                 message=message
                             )
-                            
                             if success:
-                                add_log(f"📧 {email_msg}")
+                                log(f"📧 {email_msg}")
                             else:
-                                add_log(f"⚠️ Email Error: {email_msg}")
+                                log(f"⚠️ Email Error: {email_msg}")
                         except Exception as e:
-                            add_log(f"⚠️ Email Exception: {str(e)}")
-                            debug_log(f"THREAD: Email exception: {str(e)}")
-                    else:
-                        debug_log(f"THREAD: Email is disabled")
+                            log(f"⚠️ Email Exception: {str(e)}")
 
-                    debug_log(f"THREAD: Calling zip_processor.cleanup()...")
                     zip_processor.cleanup()
-                    debug_log(f"THREAD: ZIP processing complete for {zip_path.name}")
+                    log(f"✅ Finished processing: {zip_path.name}")
 
-                debug_log(f"THREAD: Marking file as processed: {file.name}")
                 monitor.mark_as_processed(file)
-                debug_log(f"THREAD: File marked as processed")
 
             except Exception as e:
-                error_msg = f"❌ Error: {str(e)}"
-                add_log(error_msg)
-                debug_log(f"THREAD: EXCEPTION in file processing: {str(e)}")
+                log(f"❌ Error: {str(e)}")
                 import traceback
-                debug_log(f"THREAD: Traceback: {traceback.format_exc()}")
+                log(f"Traceback: {traceback.format_exc()}")
                 
     except Exception as e:
-        error_msg = f"❌ CRITICAL: {str(e)}"
-        add_log(error_msg)
-        debug_log(f"THREAD: CRITICAL EXCEPTION: {str(e)}")
+        shared_state.add_log(f"❌ CRITICAL: {str(e)}")
         import traceback
-        debug_log(f"THREAD: Traceback: {traceback.format_exc()}")
+        shared_state.add_log(f"Traceback: {traceback.format_exc()}")
 
 
 # ==========================================================
@@ -429,30 +254,28 @@ col5, col6 = st.columns(2)
 
 with col5:
     if st.button("▶ Start Service"):
-        debug_log(f"🖱️  START button clicked. service_running={st.session_state.service_running}")
         if not st.session_state.service_running:
             st.session_state.service_running = True
-            service_stop_event.clear()  # Clear stop flag
-            debug_log(f"🚦 Setting service_running=True, creating thread...")
-            add_log("🚀 Service started via UI button")
-            debug_log(f"📝 Added UI button log (queue size={log_queue.qsize()})")
+            shared_state.stop_event.clear()  # Clear stop flag
+            shared_state.add_log("🚀 Service started via UI button")
+            # Capture email setting NOW (safe, on main thread) and pass to thread
+            email_enabled = st.session_state.get("send_email_notification", False)
+            if email_enabled:
+                shared_state.add_log("☑ Email notifications enabled")
             thread = threading.Thread(
                 target=run_service,
-                args=(incoming_input, base_input, poll_interval),
+                args=(incoming_input, base_input, poll_interval, email_enabled),
                 daemon=True,
                 name="DeploymentServiceWorker"
             )
-            debug_log(f"🧵 Thread created: {thread.name}")
             thread.start()
-            debug_log(f"🧵 Thread started (is_alive={thread.is_alive()})")
 
 with col6:
     if st.button("⏹ Stop Service"):
-        debug_log(f"🖱️  STOP button clicked. service_running={st.session_state.service_running}")
         if st.session_state.service_running:
             st.session_state.service_running = False
-            service_stop_event.set()  # Signal thread to stop
-            debug_log("🛑 Setting service_running=False and service_stop_event=set()")
+            shared_state.stop_event.set()  # Signal thread to stop
+            shared_state.add_log("🛑 Stop signal sent.")
 
 
 # ==========================================================
@@ -502,22 +325,21 @@ if (
 
 
 # ==========================================================
-# LIVE LOG DISPLAY (with queue flushing)
+# LIVE LOG DISPLAY
 # ==========================================================
-
-debug_log(f"📺 Rendering logs section. Queue size: {log_queue.qsize()}, Logs count: {len(st.session_state.logs)}")
 
 st.subheader("📜 Live Logs")
 
-# Flush any messages from background thread queue
-flush_log_queue()
-flush_state_queue()  # Also flush any state updates
+# Flush logs from shared_state buffer → session_state (MAIN THREAD)
+shared_state.drain_queue()
+st.session_state.logs = shared_state.get_all_logs()
 
-debug_log(f"📺 After flush: Queue size: {log_queue.qsize()}, Logs count: {len(st.session_state.logs)}")
+# Flush state updates (e.g., last_status)
+for key, value in shared_state.drain_state_queue():
+    st.session_state[key] = value
 
-# Display logs
+# Display logs (last 100)
 log_text = "\n".join(st.session_state.logs[-100:])
-debug_log(f"📺 Displaying {len(st.session_state.logs[-100:])} of {len(st.session_state.logs)} logs (last 100)")
 st.text_area("Logs", log_text, height=300, label_visibility="collapsed")
 
 
@@ -525,18 +347,11 @@ st.text_area("Logs", log_text, height=300, label_visibility="collapsed")
 # AUTO REFRESH
 # ==========================================================
 
-# Check for pending messages: queue OR buffer
-buffer_len = len(_log_buffer)
-session_len = len(st.session_state.logs)
-queue_len = log_queue.qsize()
-has_pending = (not log_queue.empty()) or (buffer_len > session_len)
-
-if st.session_state.service_running and has_pending:
-    debug_log(f"♻️  Service running with messages pending (queue={queue_len}, buffer={buffer_len}, session={session_len}), rerunning...")
-    time.sleep(0.3)  # Batch log messages
-    st.rerun()
-elif st.session_state.service_running:
-    # Service is running but no new messages - check less frequently
-    debug_log(f"♻️  Service running but no pending messages, light rerun after 1.5s...")
-    time.sleep(1.5)
+if st.session_state.service_running:
+    if shared_state.has_pending_logs(len(st.session_state.logs)):
+        # New messages available — refresh quickly to show them
+        time.sleep(0.3)
+    else:
+        # No new messages — poll less aggressively
+        time.sleep(2.0)
     st.rerun()

@@ -2,16 +2,24 @@
   "base_audit_path": "C:\\deployment_audit_test",
   "poll_interval_seconds": 30,
   "clusters": {
-    "mena": ["FSMHO1U"],
-    "cee": ["FMSLO1P", "FMROM1P"],
-    "ssa": ["FCCNIG", "FCCKEN"]
+    "mena": [
+      "FSMHO1U"
+    ],
+    "cee": [
+      "FMSLO1P",
+      "FMROM1P"
+    ],
+    "ssa": [
+      "FCCNIG",
+      "FCCKEN"
+    ]
   },
   "ignorable_errors": [
     "ORA-00001",
     "ORA-00955"
   ],
   "email_settings": {
-    "enabled": false,
+    "enabled": true,
     "recipients": [
       "logeshlove38@gmail.com"
     ],
@@ -22,4 +30,3 @@
     "body_template": "Cluster: {cluster}\nInstance: {instance}\nStatus: {status}\n\nDetails:\n{message}\n\nValidation Checks:\n- Invalid Objects Check: OK\n- Execution Integrity Check: OK\n- Oracle Error Check: OK\n\nPlease proceed accordingly."
   }
 }
-
