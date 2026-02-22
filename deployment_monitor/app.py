@@ -156,7 +156,7 @@ with col4:
             st.error("Base path does not exist.")
 
 
-poll_interval = st.number_input("Poll Interval (seconds)", 5, 300, 30)
+poll_interval = st.number_input("Poll Interval (seconds)", 5, 300, 5)
 st.markdown('</div>', unsafe_allow_html=True)
 
 
