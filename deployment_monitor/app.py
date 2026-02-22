@@ -168,51 +168,66 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
     """Background thread service for monitoring and processing deployments."""
     try:
         add_log("🔍 Background service thread started...")
-        debug_log("🔍 run_service() called - starting setup phase")
+        debug_log(f"THREAD: run_service() called with incoming={incoming_path_str}, base={base_path_str}, interval={interval}")
         
         incoming_path = Path(incoming_path_str)
+        debug_log(f"THREAD: Created incoming_path object: {incoming_path}")
+        
         base_audit_path = Path(base_path_str)
-
+        debug_log(f"THREAD: Created base_audit_path object: {base_audit_path}")
+        
         config_path = Path("config.json")
+        debug_log(f"THREAD: Created config_path object: {config_path}")
 
+        debug_log(f"THREAD: config_path.exists() = {config_path.exists()}")
         if not config_path.exists():
             add_log("❌ config.json not found.")
-            debug_log("❌ config.json not found - returning")
+            debug_log("THREAD: Returning due to missing config.json")
             return
 
+        debug_log(f"THREAD: incoming_path.exists() = {incoming_path.exists()}")
         if not incoming_path.exists():
-            add_log("❌ Incoming path not found.")
-            debug_log("❌ Incoming path not found - returning")
+            add_log(f"❌ Incoming path not found: {incoming_path}")
+            debug_log(f"THREAD: Returning due to missing incoming path: {incoming_path}")
             return
 
+        debug_log(f"THREAD: base_audit_path.exists() = {base_audit_path.exists()}")
         if not base_audit_path.exists():
-            add_log("❌ Base audit path not found.")
-            debug_log("❌ Base audit path not found - returning")
+            add_log(f"❌ Base audit path not found: {base_audit_path}")
+            debug_log(f"THREAD: Returning due to missing base path: {base_audit_path}")
             return
 
-        debug_log("✅ All paths exist, loading config...")
+        debug_log("THREAD: All paths validated, loading config...")
         with open(config_path, "r", encoding="utf-8") as f:
             config = json.load(f)
+        debug_log("THREAD: Config loaded successfully")
 
-        debug_log("✅ Config loaded, initializing managers...")
+        debug_log("THREAD: Creating CycleManager...")
         cycle_manager = CycleManager(base_audit_path)
+        debug_log("THREAD: Generating cycle name...")
         cycle_name = cycle_manager.generate_cycle_name()
+        debug_log(f"THREAD: Cycle name generated: {cycle_name}")
+        debug_log("THREAD: Ensuring cycle folder...")
         cycle_manager.ensure_cycle_folder(cycle_name)
+        debug_log("THREAD: Cycle folder ensured")
 
+        debug_log("THREAD: Creating Archiver...")
         archiver = Archiver(base_audit_path, cycle_name)
+        debug_log("THREAD: Archiver created")
         
-        # Using Polling Folder Monitor
-        debug_log(f"✅ Managers initialized, starting FolderMonitor on {incoming_path}")
+        debug_log(f"THREAD: Creating FolderMonitor for {incoming_path} with interval {interval}...")
         monitor = FolderMonitor(incoming_path, poll_interval=interval)
+        debug_log("THREAD: FolderMonitor created")
 
         add_log("✅ Service Started (Polling Method).")
-        debug_log("✅ Service setup complete, entering polling loop")
+        debug_log("THREAD: Service setup complete, about to enter polling loop")
 
         for file in monitor.start_polling():
+            debug_log(f"THREAD: Got file from polling: {file.name}")
 
             if service_stop_event.is_set():
                 add_log("🛑 Service Stopped.")
-                debug_log("🛑 stop_event detected, breaking polling loop")
+                debug_log("THREAD: Stop event detected, breaking")
                 break
 
             try:
@@ -294,14 +309,14 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
 
             except Exception as e:
                 add_log(f"❌ Error: {str(e)}")
-                debug_log(f"❌ Exception in file processing: {str(e)}")
+                debug_log(f"THREAD: Exception in file processing: {str(e)}")
                 
     except Exception as e:
         error_msg = f"❌ CRITICAL: {str(e)}"
         add_log(error_msg)
-        debug_log(f"🔥 CRITICAL EXCEPTION in run_service: {str(e)}")
+        debug_log(f"THREAD: CRITICAL EXCEPTION: {str(e)}")
         import traceback
-        debug_log(f"Traceback: {traceback.format_exc()}")
+        debug_log(f"THREAD: Traceback: {traceback.format_exc()}")
 
 
 # ==========================================================
