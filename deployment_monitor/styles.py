@@ -114,29 +114,49 @@ def load_css():
            ---------------------------------------------------- */
         .stTextInput > div > div > input,
         .stTextArea > div > div > textarea,
-        .stNumberInput > div > div > input {
-            background: rgba(255, 255, 255, 0.12) !important;
-            border: 1px solid var(--border-subtle) !important;
-            border-radius: var(--radius-md) !important;
-            color: var(--text-primary) !important;
-            font-family: var(--font-body) !important;
-            padding: 10px 15px !important;
+        .stNumberInput > div > div > input,
+        input[type="text"],
+        textarea {
+            background: rgba(30, 20, 60, 0.9) !important;
+            border: 2px solid rgba(102, 126, 234, 0.5) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 16px !important;
+            padding: 12px 16px !important;
+            caret-color: #667eea !important;
         }
 
         /* Placeholder text visibility */
         .stTextInput > div > div > input::placeholder,
         .stTextArea > div > div > textarea::placeholder,
-        .stNumberInput > div > div > input::placeholder {
-            color: rgba(255, 255, 255, 0.6) !important;
+        .stNumberInput > div > div > input::placeholder,
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7) !important;
             font-style: italic;
+        }
+
+        /* WebKit browsers autofill styling */
+        .stTextInput > div > div > input:-webkit-autofill,
+        .stTextInput > div > div > input:-webkit-autofill:hover,
+        .stTextInput > div > div > input:-webkit-autofill:focus,
+        input[type="text"]:-webkit-autofill,
+        input[type="text"]:-webkit-autofill:hover,
+        input[type="text"]:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 1000px rgba(30, 20, 60, 0.9) inset !important;
+            -webkit-text-fill-color: #ffffff !important;
         }
 
         .stTextInput > div > div > input:focus,
         .stTextArea > div > div > textarea:focus,
-        .stNumberInput > div > div > input:focus {
-             border: 1px solid rgba(102, 126, 234, 0.8) !important;
-             box-shadow: 0 0 15px rgba(102, 126, 234, 0.4) !important;
-             background: rgba(255,255,255,0.15) !important;
+        .stNumberInput > div > div > input:focus,
+        input[type="text"]:focus,
+        textarea:focus {
+             border: 2px solid rgba(102, 126, 234, 1) !important;
+             box-shadow: 0 0 20px rgba(102, 126, 234, 0.5) !important;
+             background: rgba(40, 25, 80, 0.95) !important;
+             outline: none !important;
         }
         
         /* ----------------------------------------------------
