@@ -13,8 +13,7 @@
   "email_settings": {
     "enabled": false,
     "recipients": [
-      "release.team@company.com",
-      "support.team@company.com"
+      "logeshlove38@gmail.com"
     ],
     "subject_templates": {
       "PASS": "[PASS] {cluster} - {instance} Deployment Validation",

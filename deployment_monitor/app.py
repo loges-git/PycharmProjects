@@ -120,7 +120,9 @@ st.markdown('</div>', unsafe_allow_html=True)
 # ==========================================================
 
 def run_service(incoming_path_str: str, base_path_str: str, interval: int):
-
+    """Background thread service for monitoring and processing deployments."""
+    add_log("🔍 Background service thread started...")
+    
     incoming_path = Path(incoming_path_str)
     base_audit_path = Path(base_path_str)
 
@@ -256,6 +258,7 @@ with col5:
     if st.button("▶ Start Service") and not st.session_state.service_running:
         st.session_state.service_running = True
         service_stop_event.clear()  # Clear stop flag
+        add_log("🚀 Service started via UI button")
         thread = threading.Thread(
             target=run_service,
             args=(incoming_input, base_input, poll_interval),
