@@ -115,7 +115,7 @@ def load_css():
         .stTextInput > div > div > input,
         .stTextArea > div > div > textarea,
         .stNumberInput > div > div > input {
-            background: var(--bg-card) !important;
+            background: rgba(255, 255, 255, 0.12) !important;
             border: 1px solid var(--border-subtle) !important;
             border-radius: var(--radius-md) !important;
             color: var(--text-primary) !important;
@@ -123,12 +123,20 @@ def load_css():
             padding: 10px 15px !important;
         }
 
+        /* Placeholder text visibility */
+        .stTextInput > div > div > input::placeholder,
+        .stTextArea > div > div > textarea::placeholder,
+        .stNumberInput > div > div > input::placeholder {
+            color: rgba(255, 255, 255, 0.6) !important;
+            font-style: italic;
+        }
+
         .stTextInput > div > div > input:focus,
         .stTextArea > div > div > textarea:focus,
         .stNumberInput > div > div > input:focus {
              border: 1px solid rgba(102, 126, 234, 0.8) !important;
              box-shadow: 0 0 15px rgba(102, 126, 234, 0.4) !important;
-             background: rgba(255,255,255,0.1) !important;
+             background: rgba(255,255,255,0.15) !important;
         }
         
         /* ----------------------------------------------------
