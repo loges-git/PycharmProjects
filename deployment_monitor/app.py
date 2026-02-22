@@ -6,6 +6,8 @@ import os
 import queue
 from pathlib import Path
 from datetime import datetime
+from collections import deque
+import logging
 
 from core.folder_monitor import FolderMonitor
 from core.msg_processor import MsgProcessor
@@ -17,10 +19,15 @@ from core.cycle_manager import CycleManager
 from core.email_sender import EmailSender
 from styles import load_css
 
+# ===== ROBUST LOGGING SYSTEM =====
 # Thread-safe queue for background thread logging
 log_queue = queue.Queue()
 state_queue = queue.Queue()  # For thread-safe session state updates
 service_stop_event = threading.Event()  # Thread-safe stop signal
+
+# In-memory log buffer (list-based, thread-safe via GIL for appends)
+_log_buffer = deque(maxlen=500)  # Keep last 500 logs in memory
+_log_lock = threading.Lock()
 
 # Debug log file
 DEBUG_LOG_FILE = Path("queue_debug.log")
@@ -56,6 +63,9 @@ if "service_running" not in st.session_state:
 
 if "logs" not in st.session_state:
     st.session_state.logs = []
+    # Sync with in-memory buffer
+    with _log_lock:
+        st.session_state.logs = list(_log_buffer)
     debug_log("🔧 Initialized: logs = []")
 
 if "last_status" not in st.session_state:
@@ -68,30 +78,63 @@ if "last_sound_status" not in st.session_state:
 
 
 # ==========================================================
-# LOG FUNCTION (THREAD-SAFE)
+# LOG FUNCTION (THREAD-SAFE) - DUAL WRITE SYSTEM
 # ==========================================================
 
 def add_log(message: str):
-    """Add log message to thread-safe queue"""
+    """Add log message via dual system: queue + buffer"""
     timestamp = time.strftime("%H:%M:%S")
     formatted_msg = f"[{timestamp}] {message}"
-    log_queue.put(formatted_msg)
-    debug_log(f"⬅️ QUEUE.PUT (depth={log_queue.qsize()}): {message}")
+    
+    try:
+        # Write to queue (for UI updates)
+        log_queue.put(formatted_msg)
+        debug_log(f"⬅️ QUEUE.PUT (depth={log_queue.qsize()}): {message[:40]}")
+    except Exception as e:
+        debug_log(f"⚠️ QUEUE.PUT FAILED: {str(e)}")
+    
+    try:
+        # Write to in-memory buffer directly
+        with _log_lock:
+            _log_buffer.append(formatted_msg)
+        debug_log(f"📝 BUFFER.APPEND (len={len(_log_buffer)}): {message[:40]}")
+    except Exception as e:
+        debug_log(f"⚠️ BUFFER.APPEND FAILED: {str(e)}")
 
 
 def flush_log_queue():
     """Process all messages from queue and add to session state (MAIN THREAD ONLY)"""
     count = 0
+    flushed = []
+    
+    # Flush from queue
     while not log_queue.empty():
         try:
             msg = log_queue.get_nowait()
-            st.session_state.logs.append(msg)
-            debug_log(f"➡️ FLUSHED (count={count+1}): {msg[:50]}")
+            flushed.append(msg)
             count += 1
         except queue.Empty:
             break
+    
+    # Flush from buffer
+    with _log_lock:
+        if len(_log_buffer) > 0:
+            buffer_list = list(_log_buffer)
+            if len(buffer_list) > len(st.session_state.logs):
+                # We have new logs in buffer
+                st.session_state.logs = buffer_list
+                debug_log(f"📦 SYNCED from buffer: {len(buffer_list)} total logs")
+    
+    # Add  queue messages
+    for msg in flushed:
+        if msg not in st.session_state.logs:  # Avoid duplicates
+            st.session_state.logs.append(msg)
+        debug_log(f"➡️ FLUSHED: {msg[:50]}")
+    
     if count > 0:
-        debug_log(f"✅ FLUSH COMPLETE: {count} messages processed")
+        debug_log(f"✅ FLUSH COMPLETE: {count} messages from queue")
+    
+    return count
 
 
 def set_status(status: str):
