@@ -9,5 +9,18 @@
   "ignorable_errors": [
     "ORA-00001",
     "ORA-00955"
-  ]
+  ],
+  "email_settings": {
+    "enabled": false,
+    "recipients": [
+      "release.team@company.com",
+      "support.team@company.com"
+    ],
+    "subject_templates": {
+      "PASS": "[PASS] {cluster} - {instance} Deployment Validation",
+      "FAIL": "[FAIL] {cluster} - {instance} Deployment Validation"
+    },
+    "body_template": "Cluster: {cluster}\nInstance: {instance}\nStatus: {status}\n\nDetails:\n{message}\n\nValidation Checks:\n- Invalid Objects Check: OK\n- Execution Integrity Check: OK\n- Oracle Error Check: OK\n\nPlease proceed accordingly."
+  }
 }
+

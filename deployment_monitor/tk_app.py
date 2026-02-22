@@ -13,6 +13,7 @@ from core.validator import DeploymentValidator
 from core.jira_extractor import JiraExtractor
 from core.archiver import Archiver
 from core.cycle_manager import CycleManager
+from core.email_sender import EmailSender
 
 class DeploymentMonitorApp:
     def __init__(self, root):
@@ -22,6 +23,7 @@ class DeploymentMonitorApp:
         self.root.configure(bg="#1e1e2f")
 
         self.service_running = False
+        self.send_email = False
         self.log_queue = queue.Queue()
         self.last_status = None
 
@@ -88,6 +90,25 @@ class DeploymentMonitorApp:
 
         config_card.columnconfigure(1, weight=1)
 
+        # --- Email Notification Toggle ---
+        email_frame = ttk.Frame(main_frame, style="TFrame")
+        email_frame.pack(fill="x", pady=10)
+        
+        self.email_var = tk.BooleanVar(value=False)
+        self.email_check = tk.Checkbutton(
+            email_frame, 
+            text="📧 Enable Auto Email Notification",
+            variable=self.email_var,
+            bg=self.bg_color,
+            fg="#a0dcef",
+            selectcolor=self.card_bg,
+            activebackground=self.bg_color,
+            activeforeground="#a0dcef",
+            font=("Inter", 10),
+            command=self._on_email_toggle
+        )
+        self.email_check.pack(anchor="w", padx=10)
+
         # --- Control & Status ---
         control_frame = ttk.Frame(main_frame, style="TFrame")
         control_frame.pack(fill="x", pady=20)
@@ -145,6 +166,13 @@ class DeploymentMonitorApp:
             self.deploy_status_lbl.config(text="📊 Latest Status: Deployment PASSED ✅", fg="#10b981")
         else:
             self.deploy_status_lbl.config(text="📊 Latest Status: Deployment FAILED ❌", fg="#ef4444")
+
+    def _on_email_toggle(self):
+        self.send_email = self.email_var.get()
+        if self.send_email:
+            self.add_log("✅ Email notifications enabled")
+        else:
+            self.add_log("❌ Email notifications disabled")
 
     def start_service(self):
         if self.service_running:
@@ -245,6 +273,24 @@ class DeploymentMonitorApp:
                             original_zip_path=zip_path,
                             jira_units=jira_units
                         )
+                        
+                        # Send email notification if enabled
+                        if self.send_email:
+                            try:
+                                email_sender = EmailSender(config)
+                                success, email_msg = email_sender.send_deployment_summary(
+                                    status=status,
+                                    cluster=meta["cluster"],
+                                    instance=meta["instance"],
+                                    message=result["message"]
+                                )
+                                
+                                if success:
+                                    self.add_log(f"📧 {email_msg}")
+                                else:
+                                    self.add_log(f"⚠️ Email Error: {email_msg}")
+                            except Exception as e:
+                                self.add_log(f"⚠️ Email Exception: {str(e)}")
                         zip_p.cleanup()
 
                     monitor.mark_as_processed(file)

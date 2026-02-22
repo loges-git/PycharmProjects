@@ -12,6 +12,7 @@ from core.validator import DeploymentValidator
 from core.jira_extractor import JiraExtractor
 from core.archiver import Archiver
 from core.cycle_manager import CycleManager
+from core.email_sender import EmailSender
 from styles import load_css
 
 
@@ -197,6 +198,24 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                     add_log("━ Invalid Objects Created ━")
                     for invalid in result["invalid_objects"]:
                         add_log(f"  • Object: {invalid['object']} (Type: {invalid['type']})")
+                
+                # Send email notification if enabled
+                if st.session_state.get("send_email_notification", False):
+                    try:
+                        email_sender = EmailSender(config)
+                        success, email_msg = email_sender.send_deployment_summary(
+                            status=status,
+                            cluster=metadata["cluster"],
+                            instance=metadata["instance"],
+                            message=message
+                        )
+                        
+                        if success:
+                            add_log(f"📧 {email_msg}")
+                        else:
+                            add_log(f"⚠️ Email Error: {email_msg}")
+                    except Exception as e:
+                        add_log(f"⚠️ Email Exception: {str(e)}")
 
                 zip_processor.cleanup()
 
@@ -209,6 +228,13 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
 # ==========================================================
 # CONTROL BUTTONS
 # ==========================================================
+
+col_email = st.columns(1)[0]
+with col_email:
+    st.session_state.send_email_notification = st.checkbox(
+        "📧 Enable Auto Email Notification",
+        value=st.session_state.get("send_email_notification", False)
+    )
 
 col5, col6 = st.columns(2)
 
