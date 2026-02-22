@@ -1,0 +1,1224 @@
+[03:08:09.882] 🔧 Initialized: service_running = False
+[03:08:09.887] 🔧 Initialized: logs = []
+[03:08:09.901] 🔧 Initialized: last_status = None
+[03:08:09.906] 🔧 Initialized: last_sound_status = None
+[03:08:10.030] 📺 Rendering logs section. Queue size: 0, Logs count: 0
+[03:08:10.033] 📺 After flush: Queue size: 0, Logs count: 0
+[03:08:10.036] 📺 Displaying 0 of 0 logs (last 100)
+[03:08:22.476] 📺 Rendering logs section. Queue size: 0, Logs count: 0
+[03:08:22.482] 📺 After flush: Queue size: 0, Logs count: 0
+[03:08:22.485] 📺 Displaying 0 of 0 logs (last 100)
+[03:08:23.935] 📺 Rendering logs section. Queue size: 0, Logs count: 0
+[03:08:23.939] 📺 After flush: Queue size: 0, Logs count: 0
+[03:08:23.942] 📺 Displaying 0 of 0 logs (last 100)
+[03:08:25.941] 🖱️  START button clicked. service_running=False
+[03:08:25.944] 🚦 Setting service_running=True, creating thread...
+[03:08:25.947] ⬅️ QUEUE.PUT (depth=1): 🚀 Service started via UI button
+[03:08:25.950] 📝 Added UI button log (queue size=1)
+[03:08:25.953] 🧵 Thread created: DeploymentServiceWorker
+[03:08:25.956] 🧵 Thread started (is_alive=True)
+[03:08:25.956] ⬅️ QUEUE.PUT (depth=2): 🔍 Background service thread started...
+[03:08:25.967] 📺 Rendering logs section. Queue size: 2, Logs count: 0
+[03:08:25.982] ➡️ FLUSHED (count=1): [03:08:25] 🚀 Service started via UI button
+[03:08:25.983] ⬅️ QUEUE.PUT (depth=2): ✅ Service Started (Polling Method).
+[03:08:25.987] ➡️ FLUSHED (count=2): [03:08:25] 🔍 Background service thread started...
+[03:08:25.989] ➡️ FLUSHED (count=3): [03:08:25] ✅ Service Started (Polling Method).
+[03:08:25.991] ✅ FLUSH COMPLETE: 3 messages processed
+[03:08:25.993] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:25.995] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:26.004] ♻️  Service running, scheduling rerun...
+[03:08:27.140] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:27.144] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:27.149] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:27.154] ♻️  Service running, scheduling rerun...
+[03:08:28.270] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:28.282] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:28.285] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:28.297] ♻️  Service running, scheduling rerun...
+[03:08:29.418] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:29.429] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:29.434] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:29.438] ♻️  Service running, scheduling rerun...
+[03:08:30.661] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:30.665] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:30.669] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:30.676] ♻️  Service running, scheduling rerun...
+[03:08:31.846] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:31.851] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:31.857] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:31.866] ♻️  Service running, scheduling rerun...
+[03:08:33.011] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:33.015] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:33.018] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:33.023] ♻️  Service running, scheduling rerun...
+[03:08:34.168] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:34.174] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:34.177] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:34.182] ♻️  Service running, scheduling rerun...
+[03:08:35.309] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:35.313] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:35.315] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:35.319] ♻️  Service running, scheduling rerun...
+[03:08:36.444] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:36.449] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:36.451] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:36.458] ♻️  Service running, scheduling rerun...
+[03:08:37.622] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:37.634] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:37.637] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:37.644] ♻️  Service running, scheduling rerun...
+[03:08:38.781] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:38.789] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:38.794] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:38.803] ♻️  Service running, scheduling rerun...
+[03:08:39.982] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:39.988] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:39.994] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:40.003] ♻️  Service running, scheduling rerun...
+[03:08:41.162] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:41.171] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:41.176] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:41.181] ♻️  Service running, scheduling rerun...
+[03:08:42.325] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:42.331] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:42.337] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:42.346] ♻️  Service running, scheduling rerun...
+[03:08:43.488] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:43.496] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:43.499] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:43.510] ♻️  Service running, scheduling rerun...
+[03:08:44.584] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:44.585] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:44.586] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:44.588] ♻️  Service running, scheduling rerun...
+[03:08:45.667] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:45.671] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:45.673] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:45.676] ♻️  Service running, scheduling rerun...
+[03:08:46.789] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:46.795] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:46.797] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:46.802] ♻️  Service running, scheduling rerun...
+[03:08:47.953] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:47.961] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:47.964] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:47.969] ♻️  Service running, scheduling rerun...
+[03:08:49.206] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:49.212] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:49.218] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:49.233] ♻️  Service running, scheduling rerun...
+[03:08:50.387] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:50.392] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:50.395] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:50.398] ♻️  Service running, scheduling rerun...
+[03:08:51.532] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:51.538] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:51.541] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:51.546] ♻️  Service running, scheduling rerun...
+[03:08:52.734] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:52.738] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:52.742] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:52.746] ♻️  Service running, scheduling rerun...
+[03:08:53.889] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:53.895] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:53.900] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:53.907] ♻️  Service running, scheduling rerun...
+[03:08:55.048] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:55.051] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:55.057] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:55.063] ♻️  Service running, scheduling rerun...
+[03:08:56.196] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:56.206] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:56.209] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:56.214] ♻️  Service running, scheduling rerun...
+[03:08:57.358] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:57.364] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:57.366] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:57.371] ♻️  Service running, scheduling rerun...
+[03:08:58.511] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:58.519] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:58.525] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:58.531] ♻️  Service running, scheduling rerun...
+[03:08:59.685] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:08:59.692] 📺 After flush: Queue size: 0, Logs count: 3
+[03:08:59.695] 📺 Displaying 3 of 3 logs (last 100)
+[03:08:59.701] ♻️  Service running, scheduling rerun...
+[03:09:00.835] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:00.839] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:00.841] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:00.847] ♻️  Service running, scheduling rerun...
+[03:09:01.978] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:01.985] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:01.989] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:01.996] ♻️  Service running, scheduling rerun...
+[03:09:03.136] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:03.141] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:03.147] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:03.163] ♻️  Service running, scheduling rerun...
+[03:09:04.270] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:04.273] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:04.279] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:04.283] ♻️  Service running, scheduling rerun...
+[03:09:05.398] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:05.407] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:05.410] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:05.416] ♻️  Service running, scheduling rerun...
+[03:09:06.551] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:06.558] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:06.560] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:06.567] ♻️  Service running, scheduling rerun...
+[03:09:07.726] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:07.732] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:07.734] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:07.740] ♻️  Service running, scheduling rerun...
+[03:09:08.906] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:08.912] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:08.915] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:08.920] ♻️  Service running, scheduling rerun...
+[03:09:10.059] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:10.070] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:10.074] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:10.083] ♻️  Service running, scheduling rerun...
+[03:09:11.213] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:11.218] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:11.220] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:11.226] ♻️  Service running, scheduling rerun...
+[03:09:12.326] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:12.329] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:12.331] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:12.335] ♻️  Service running, scheduling rerun...
+[03:09:13.417] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:13.422] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:13.425] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:13.428] ♻️  Service running, scheduling rerun...
+[03:09:14.568] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:14.574] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:14.576] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:14.583] ♻️  Service running, scheduling rerun...
+[03:09:15.725] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:15.729] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:15.733] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:15.740] ♻️  Service running, scheduling rerun...
+[03:09:16.881] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:16.887] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:16.891] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:16.900] ♻️  Service running, scheduling rerun...
+[03:09:18.023] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:18.029] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:18.031] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:18.039] ♻️  Service running, scheduling rerun...
+[03:09:19.177] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:19.186] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:19.189] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:19.194] ♻️  Service running, scheduling rerun...
+[03:09:20.333] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:20.341] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:20.344] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:20.351] ♻️  Service running, scheduling rerun...
+[03:09:21.486] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:21.492] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:21.495] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:21.503] ♻️  Service running, scheduling rerun...
+[03:09:22.655] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:22.659] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:22.664] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:22.673] ♻️  Service running, scheduling rerun...
+[03:09:23.818] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:23.823] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:23.829] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:23.833] ♻️  Service running, scheduling rerun...
+[03:09:24.972] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:24.977] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:24.980] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:24.987] ♻️  Service running, scheduling rerun...
+[03:09:26.133] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:26.138] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:26.143] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:26.155] ♻️  Service running, scheduling rerun...
+[03:09:27.282] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:27.286] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:27.288] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:27.293] ♻️  Service running, scheduling rerun...
+[03:09:28.444] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:28.450] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:28.454] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:28.459] ♻️  Service running, scheduling rerun...
+[03:09:29.594] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:29.599] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:29.601] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:29.606] ♻️  Service running, scheduling rerun...
+[03:09:30.735] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:30.742] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:30.745] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:30.754] ♻️  Service running, scheduling rerun...
+[03:09:31.898] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:31.904] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:31.906] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:31.910] ♻️  Service running, scheduling rerun...
+[03:09:33.035] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:33.042] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:33.044] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:33.049] ♻️  Service running, scheduling rerun...
+[03:09:34.186] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:34.190] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:34.192] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:34.197] ♻️  Service running, scheduling rerun...
+[03:09:35.315] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:35.320] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:35.325] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:35.329] ♻️  Service running, scheduling rerun...
+[03:09:36.424] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:36.440] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:36.442] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:36.446] ♻️  Service running, scheduling rerun...
+[03:09:37.540] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:37.545] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:37.549] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:37.552] ♻️  Service running, scheduling rerun...
+[03:09:38.692] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:38.697] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:38.700] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:38.706] ♻️  Service running, scheduling rerun...
+[03:09:39.857] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:39.862] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:39.864] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:39.871] ♻️  Service running, scheduling rerun...
+[03:09:41.012] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:41.018] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:41.021] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:41.030] ♻️  Service running, scheduling rerun...
+[03:09:42.178] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:42.186] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:42.190] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:42.196] ♻️  Service running, scheduling rerun...
+[03:09:43.338] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:43.344] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:43.350] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:43.359] ♻️  Service running, scheduling rerun...
+[03:09:44.509] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:44.516] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:44.518] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:44.524] ♻️  Service running, scheduling rerun...
+[03:09:45.673] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:45.681] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:45.683] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:45.688] ♻️  Service running, scheduling rerun...
+[03:09:46.813] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:46.816] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:46.820] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:46.824] ♻️  Service running, scheduling rerun...
+[03:09:47.941] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:47.946] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:47.948] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:47.952] ♻️  Service running, scheduling rerun...
+[03:09:49.111] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:49.113] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:49.118] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:49.122] ♻️  Service running, scheduling rerun...
+[03:09:50.219] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:50.223] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:50.224] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:50.230] ♻️  Service running, scheduling rerun...
+[03:09:51.092] ⬅️ QUEUE.PUT (depth=1): Detected file: logs.gatherer.sh.2026-02-23_23-45-00.zip
+[03:09:51.095] ⬅️ QUEUE.PUT (depth=2): Processing ZIP: logs.gatherer.sh.2026-02-23_23-45-00.zip
+[03:09:51.381] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:51.389] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:51.391] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:51.397] ♻️  Service running, scheduling rerun...
+[03:09:51.529] ⬅️ QUEUE.PUT (depth=3): Status: FAIL
+[03:09:51.533] ⬅️ QUEUE.PUT (depth=4): Details: Non-ignorable errors detected
+[03:09:51.535] ⬅️ QUEUE.PUT (depth=5): ━ Error Details ━
+[03:09:51.539] ⬅️ QUEUE.PUT (depth=6):   • Unit: Unknown Unit | Code: ORA-00942
+[03:09:51.541] ⬅️ QUEUE.PUT (depth=7):     Message: ORA-00942: table or view does not exist...
+[03:09:51.544] ⬅️ QUEUE.PUT (depth=8):   • Unit: Unknown Unit | Code: ORA-06512
+[03:09:51.548] ⬅️ QUEUE.PUT (depth=9):     Message: ORA-06512: at "FCCCHO.HO_MAIN_IB_VALIDATION_CAD_UPDATE", line 25...
+[03:09:51.552] ⬅️ QUEUE.PUT (depth=10):   • Unit: Unknown Unit | Code: COMPILATION ERRORS
+[03:09:51.557] ⬅️ QUEUE.PUT (depth=11):     Message: Warning: Package Body created with compilation errors....
+[03:09:52.547] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:52.550] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:52.554] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:52.559] ♻️  Service running, scheduling rerun...
+[03:09:53.683] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:53.686] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:53.689] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:53.693] ♻️  Service running, scheduling rerun...
+[03:09:54.831] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:54.843] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:54.848] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:54.865] ♻️  Service running, scheduling rerun...
+[03:09:55.968] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:55.974] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:55.977] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:55.980] ♻️  Service running, scheduling rerun...
+[03:09:57.144] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:57.148] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:57.149] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:57.157] ♻️  Service running, scheduling rerun...
+[03:09:58.264] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:58.269] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:58.271] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:58.274] ♻️  Service running, scheduling rerun...
+[03:09:59.421] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:09:59.428] 📺 After flush: Queue size: 0, Logs count: 3
+[03:09:59.433] 📺 Displaying 3 of 3 logs (last 100)
+[03:09:59.440] ♻️  Service running, scheduling rerun...
+[03:10:00.569] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:00.573] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:00.575] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:00.579] ♻️  Service running, scheduling rerun...
+[03:10:01.745] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:01.755] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:01.758] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:01.770] ♻️  Service running, scheduling rerun...
+[03:10:02.920] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:02.926] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:02.929] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:02.936] ♻️  Service running, scheduling rerun...
+[03:10:04.068] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:04.079] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:04.085] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:04.090] ♻️  Service running, scheduling rerun...
+[03:10:05.220] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:05.228] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:05.230] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:05.237] ♻️  Service running, scheduling rerun...
+[03:10:06.362] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:06.368] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:06.371] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:06.375] ♻️  Service running, scheduling rerun...
+[03:10:07.510] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:07.516] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:07.520] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:07.527] ♻️  Service running, scheduling rerun...
+[03:10:08.656] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:08.659] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:08.661] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:08.667] ♻️  Service running, scheduling rerun...
+[03:10:09.822] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:09.826] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:09.828] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:09.833] ♻️  Service running, scheduling rerun...
+[03:10:10.991] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:10.996] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:10.998] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:11.005] ♻️  Service running, scheduling rerun...
+[03:10:12.177] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:12.181] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:12.183] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:12.188] ♻️  Service running, scheduling rerun...
+[03:10:13.324] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:13.331] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:13.335] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:13.340] ♻️  Service running, scheduling rerun...
+[03:10:14.478] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:14.483] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:14.486] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:14.495] ♻️  Service running, scheduling rerun...
+[03:10:15.627] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:15.632] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:15.634] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:15.641] ♻️  Service running, scheduling rerun...
+[03:10:16.801] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:16.810] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:16.812] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:16.824] ♻️  Service running, scheduling rerun...
+[03:10:18.003] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:18.012] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:18.014] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:18.023] ♻️  Service running, scheduling rerun...
+[03:10:19.138] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:19.142] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:19.143] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:19.154] ♻️  Service running, scheduling rerun...
+[03:10:20.304] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:20.311] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:20.315] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:20.319] ♻️  Service running, scheduling rerun...
+[03:10:21.479] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:21.492] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:21.497] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:21.503] ♻️  Service running, scheduling rerun...
+[03:10:22.643] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:22.649] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:22.652] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:22.656] ♻️  Service running, scheduling rerun...
+[03:10:23.809] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:23.816] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:23.818] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:23.824] ♻️  Service running, scheduling rerun...
+[03:10:24.964] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:24.972] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:24.978] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:24.984] ♻️  Service running, scheduling rerun...
+[03:10:26.131] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:26.135] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:26.143] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:26.151] ♻️  Service running, scheduling rerun...
+[03:10:27.302] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:27.305] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:27.307] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:27.310] ♻️  Service running, scheduling rerun...
+[03:10:28.561] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:28.567] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:28.569] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:28.571] ♻️  Service running, scheduling rerun...
+[03:10:29.711] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:29.718] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:29.723] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:29.729] ♻️  Service running, scheduling rerun...
+[03:10:30.885] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:30.891] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:30.896] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:30.902] ♻️  Service running, scheduling rerun...
+[03:10:32.046] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:32.051] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:32.056] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:32.063] ♻️  Service running, scheduling rerun...
+[03:10:33.202] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:33.209] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:33.212] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:33.221] ♻️  Service running, scheduling rerun...
+[03:10:34.369] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:34.383] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:34.390] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:34.395] ♻️  Service running, scheduling rerun...
+[03:10:35.604] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:35.608] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:35.611] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:35.618] ♻️  Service running, scheduling rerun...
+[03:10:36.776] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:36.786] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:36.804] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:36.816] ♻️  Service running, scheduling rerun...
+[03:10:37.949] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:37.957] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:37.959] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:37.965] ♻️  Service running, scheduling rerun...
+[03:10:39.108] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:39.112] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:39.114] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:39.118] ♻️  Service running, scheduling rerun...
+[03:10:40.232] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:40.237] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:40.239] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:40.245] ♻️  Service running, scheduling rerun...
+[03:10:41.520] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:41.523] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:41.526] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:41.529] ♻️  Service running, scheduling rerun...
+[03:10:42.627] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:42.633] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:42.640] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:42.651] ♻️  Service running, scheduling rerun...
+[03:10:43.819] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:43.823] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:43.826] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:43.829] ♻️  Service running, scheduling rerun...
+[03:10:44.961] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:44.964] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:44.965] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:44.970] ♻️  Service running, scheduling rerun...
+[03:10:46.105] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:46.111] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:46.119] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:46.126] ♻️  Service running, scheduling rerun...
+[03:10:47.272] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:47.277] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:47.280] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:47.286] ♻️  Service running, scheduling rerun...
+[03:10:48.416] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:48.421] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:48.426] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:48.433] ♻️  Service running, scheduling rerun...
+[03:10:49.597] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:49.603] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:49.607] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:49.612] ♻️  Service running, scheduling rerun...
+[03:10:50.771] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:50.776] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:50.778] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:50.783] ♻️  Service running, scheduling rerun...
+[03:10:51.934] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:51.940] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:51.944] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:51.950] ♻️  Service running, scheduling rerun...
+[03:10:53.113] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:53.121] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:53.123] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:53.130] ♻️  Service running, scheduling rerun...
+[03:10:54.284] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:54.290] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:54.294] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:54.299] ♻️  Service running, scheduling rerun...
+[03:10:55.433] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:55.435] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:55.437] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:55.442] ♻️  Service running, scheduling rerun...
+[03:10:56.592] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:56.596] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:56.600] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:56.604] ♻️  Service running, scheduling rerun...
+[03:10:57.751] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:57.758] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:57.763] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:57.769] ♻️  Service running, scheduling rerun...
+[03:10:58.921] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:10:58.926] 📺 After flush: Queue size: 0, Logs count: 3
+[03:10:58.930] 📺 Displaying 3 of 3 logs (last 100)
+[03:10:58.934] ♻️  Service running, scheduling rerun...
+[03:11:00.086] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:00.090] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:00.094] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:00.101] ♻️  Service running, scheduling rerun...
+[03:11:01.249] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:01.254] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:01.257] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:01.264] ♻️  Service running, scheduling rerun...
+[03:11:02.378] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:02.383] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:02.385] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:02.388] ♻️  Service running, scheduling rerun...
+[03:11:03.526] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:03.531] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:03.537] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:03.545] ♻️  Service running, scheduling rerun...
+[03:11:04.697] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:04.704] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:04.706] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:04.711] ♻️  Service running, scheduling rerun...
+[03:11:05.846] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:05.849] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:05.850] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:05.857] ♻️  Service running, scheduling rerun...
+[03:11:07.006] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:07.014] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:07.017] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:07.024] ♻️  Service running, scheduling rerun...
+[03:11:08.204] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:08.207] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:08.210] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:08.215] ♻️  Service running, scheduling rerun...
+[03:11:09.341] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:09.346] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:09.348] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:09.354] ♻️  Service running, scheduling rerun...
+[03:11:10.474] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:10.478] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:10.482] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:10.487] ♻️  Service running, scheduling rerun...
+[03:11:11.611] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:11.616] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:11.618] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:11.622] ♻️  Service running, scheduling rerun...
+[03:11:12.772] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:12.780] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:12.784] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:12.790] ♻️  Service running, scheduling rerun...
+[03:11:13.923] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:13.928] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:13.931] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:13.935] ♻️  Service running, scheduling rerun...
+[03:11:15.074] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:15.079] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:15.082] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:15.094] ♻️  Service running, scheduling rerun...
+[03:11:16.245] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:16.253] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:16.258] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:16.265] ♻️  Service running, scheduling rerun...
+[03:11:17.392] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:17.397] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:17.400] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:17.406] ♻️  Service running, scheduling rerun...
+[03:11:18.540] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:18.545] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:18.548] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:18.557] ♻️  Service running, scheduling rerun...
+[03:11:19.690] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:19.693] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:19.696] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:19.700] ♻️  Service running, scheduling rerun...
+[03:11:20.826] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:20.831] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:20.839] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:20.846] ♻️  Service running, scheduling rerun...
+[03:11:21.956] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:21.961] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:21.964] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:21.970] ♻️  Service running, scheduling rerun...
+[03:11:23.103] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:23.107] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:23.110] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:23.114] ♻️  Service running, scheduling rerun...
+[03:11:24.243] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:24.249] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:24.253] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:24.262] ♻️  Service running, scheduling rerun...
+[03:11:25.490] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:25.494] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:25.500] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:25.506] ♻️  Service running, scheduling rerun...
+[03:11:26.670] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:26.677] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:26.683] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:26.687] ♻️  Service running, scheduling rerun...
+[03:11:27.823] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:27.827] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:27.830] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:27.837] ♻️  Service running, scheduling rerun...
+[03:11:28.974] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:28.978] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:28.982] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:28.987] ♻️  Service running, scheduling rerun...
+[03:11:30.138] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:30.143] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:30.148] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:30.154] ♻️  Service running, scheduling rerun...
+[03:11:31.291] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:31.296] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:31.298] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:31.302] ♻️  Service running, scheduling rerun...
+[03:11:32.477] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:32.483] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:32.486] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:32.490] ♻️  Service running, scheduling rerun...
+[03:11:33.639] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:33.645] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:33.649] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:33.657] ♻️  Service running, scheduling rerun...
+[03:11:34.791] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:34.797] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:34.800] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:34.805] ♻️  Service running, scheduling rerun...
+[03:11:35.958] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:35.964] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:35.970] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:35.976] ♻️  Service running, scheduling rerun...
+[03:11:37.117] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:37.122] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:37.124] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:37.127] ♻️  Service running, scheduling rerun...
+[03:11:38.280] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:38.286] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:38.290] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:38.298] ♻️  Service running, scheduling rerun...
+[03:11:39.436] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:39.442] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:39.446] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:39.452] ♻️  Service running, scheduling rerun...
+[03:11:40.566] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:40.571] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:40.574] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:40.580] ♻️  Service running, scheduling rerun...
+[03:11:41.732] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:41.737] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:41.740] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:41.747] ♻️  Service running, scheduling rerun...
+[03:11:42.897] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:42.905] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:42.909] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:42.912] ♻️  Service running, scheduling rerun...
+[03:11:44.189] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:44.193] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:44.196] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:44.200] ♻️  Service running, scheduling rerun...
+[03:11:45.325] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:45.327] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:45.328] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:45.331] ♻️  Service running, scheduling rerun...
+[03:11:46.471] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:46.475] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:46.477] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:46.482] ♻️  Service running, scheduling rerun...
+[03:11:47.592] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:47.594] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:47.596] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:47.604] ♻️  Service running, scheduling rerun...
+[03:11:48.724] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:48.729] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:48.733] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:48.738] ♻️  Service running, scheduling rerun...
+[03:11:49.881] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:49.886] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:49.888] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:49.894] ♻️  Service running, scheduling rerun...
+[03:11:51.043] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:51.050] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:51.052] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:51.059] ♻️  Service running, scheduling rerun...
+[03:11:52.201] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:52.206] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:52.209] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:52.214] ♻️  Service running, scheduling rerun...
+[03:11:53.325] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:53.329] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:53.331] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:53.337] ♻️  Service running, scheduling rerun...
+[03:11:54.481] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:54.485] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:54.493] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:54.501] ♻️  Service running, scheduling rerun...
+[03:11:55.638] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:55.643] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:55.647] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:55.654] ♻️  Service running, scheduling rerun...
+[03:11:56.808] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:56.815] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:56.819] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:56.828] ♻️  Service running, scheduling rerun...
+[03:11:57.974] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:57.978] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:57.981] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:57.987] ♻️  Service running, scheduling rerun...
+[03:11:59.118] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:11:59.123] 📺 After flush: Queue size: 0, Logs count: 3
+[03:11:59.126] 📺 Displaying 3 of 3 logs (last 100)
+[03:11:59.134] ♻️  Service running, scheduling rerun...
+[03:12:00.278] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:00.283] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:00.285] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:00.293] ♻️  Service running, scheduling rerun...
+[03:12:01.430] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:01.433] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:01.435] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:01.440] ♻️  Service running, scheduling rerun...
+[03:12:02.570] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:02.573] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:02.575] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:02.578] ♻️  Service running, scheduling rerun...
+[03:12:03.711] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:03.715] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:03.718] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:03.722] ♻️  Service running, scheduling rerun...
+[03:12:04.879] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:04.890] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:04.894] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:04.899] ♻️  Service running, scheduling rerun...
+[03:12:06.059] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:06.063] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:06.066] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:06.076] ♻️  Service running, scheduling rerun...
+[03:12:07.251] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:07.256] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:07.258] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:07.262] ♻️  Service running, scheduling rerun...
+[03:12:08.411] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:08.416] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:08.418] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:08.423] ♻️  Service running, scheduling rerun...
+[03:12:09.558] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:09.567] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:09.570] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:09.579] ♻️  Service running, scheduling rerun...
+[03:12:10.736] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:10.742] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:10.744] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:10.750] ♻️  Service running, scheduling rerun...
+[03:12:11.904] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:11.910] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:11.919] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:11.928] ♻️  Service running, scheduling rerun...
+[03:12:13.092] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:13.099] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:13.101] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:13.106] ♻️  Service running, scheduling rerun...
+[03:12:14.256] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:14.265] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:14.267] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:14.271] ♻️  Service running, scheduling rerun...
+[03:12:15.368] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:15.373] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:15.376] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:15.380] ♻️  Service running, scheduling rerun...
+[03:12:16.518] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:16.526] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:16.528] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:16.533] ♻️  Service running, scheduling rerun...
+[03:12:17.692] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:17.698] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:17.701] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:17.709] ♻️  Service running, scheduling rerun...
+[03:12:18.859] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:18.864] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:18.868] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:18.874] ♻️  Service running, scheduling rerun...
+[03:12:20.025] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:20.031] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:20.034] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:20.040] ♻️  Service running, scheduling rerun...
+[03:12:21.197] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:21.202] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:21.207] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:21.212] ♻️  Service running, scheduling rerun...
+[03:12:22.375] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:22.379] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:22.381] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:22.386] ♻️  Service running, scheduling rerun...
+[03:12:23.522] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:23.528] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:23.534] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:23.542] ♻️  Service running, scheduling rerun...
+[03:12:24.695] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:24.701] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:24.705] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:24.710] ♻️  Service running, scheduling rerun...
+[03:12:25.865] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:25.871] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:25.875] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:25.881] ♻️  Service running, scheduling rerun...
+[03:12:27.024] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:27.030] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:27.035] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:27.042] ♻️  Service running, scheduling rerun...
+[03:12:28.183] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:28.191] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:28.193] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:28.201] ♻️  Service running, scheduling rerun...
+[03:12:29.307] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:29.309] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:29.312] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:29.318] ♻️  Service running, scheduling rerun...
+[03:12:30.421] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:30.427] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:30.431] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:30.439] ♻️  Service running, scheduling rerun...
+[03:12:31.585] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:31.589] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:31.592] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:31.601] ♻️  Service running, scheduling rerun...
+[03:12:32.745] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:32.748] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:32.751] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:32.756] ♻️  Service running, scheduling rerun...
+[03:12:33.887] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:33.891] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:33.894] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:33.899] ♻️  Service running, scheduling rerun...
+[03:12:35.067] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:35.074] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:35.079] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:35.085] ♻️  Service running, scheduling rerun...
+[03:12:36.241] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:36.245] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:36.247] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:36.251] ♻️  Service running, scheduling rerun...
+[03:12:37.367] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:37.370] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:37.373] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:37.379] ♻️  Service running, scheduling rerun...
+[03:12:38.489] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:38.493] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:38.496] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:38.500] ♻️  Service running, scheduling rerun...
+[03:12:39.647] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:39.654] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:39.657] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:39.665] ♻️  Service running, scheduling rerun...
+[03:12:40.782] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:40.787] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:40.788] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:40.791] ♻️  Service running, scheduling rerun...
+[03:12:41.937] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:41.943] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:41.946] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:41.952] ♻️  Service running, scheduling rerun...
+[03:12:43.120] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:43.123] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:43.126] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:43.134] ♻️  Service running, scheduling rerun...
+[03:12:44.275] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:44.280] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:44.283] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:44.288] ♻️  Service running, scheduling rerun...
+[03:12:45.429] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:45.436] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:45.439] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:45.445] ♻️  Service running, scheduling rerun...
+[03:12:46.585] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:46.590] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:46.592] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:46.597] ♻️  Service running, scheduling rerun...
+[03:12:47.706] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:47.710] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:47.713] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:47.716] ♻️  Service running, scheduling rerun...
+[03:12:48.836] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:48.845] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:48.850] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:48.856] ♻️  Service running, scheduling rerun...
+[03:12:49.963] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:49.966] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:49.968] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:49.972] ♻️  Service running, scheduling rerun...
+[03:12:51.080] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:51.084] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:51.086] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:51.091] ♻️  Service running, scheduling rerun...
+[03:12:52.204] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:52.208] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:52.219] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:52.224] ♻️  Service running, scheduling rerun...
+[03:12:53.367] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:53.371] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:53.375] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:53.383] ♻️  Service running, scheduling rerun...
+[03:12:54.946] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:54.952] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:54.955] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:54.967] ♻️  Service running, scheduling rerun...
+[03:12:56.612] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:56.615] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:56.617] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:56.619] ♻️  Service running, scheduling rerun...
+[03:12:57.778] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:57.780] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:57.783] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:57.787] ♻️  Service running, scheduling rerun...
+[03:12:58.953] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:12:58.959] 📺 After flush: Queue size: 0, Logs count: 3
+[03:12:58.975] 📺 Displaying 3 of 3 logs (last 100)
+[03:12:58.979] ♻️  Service running, scheduling rerun...
+[03:13:00.165] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:00.179] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:00.182] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:00.188] ♻️  Service running, scheduling rerun...
+[03:13:01.542] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:01.549] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:01.551] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:01.562] ♻️  Service running, scheduling rerun...
+[03:13:02.822] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:02.825] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:02.829] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:02.838] ♻️  Service running, scheduling rerun...
+[03:13:04.008] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:04.014] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:04.020] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:04.026] ♻️  Service running, scheduling rerun...
+[03:13:05.275] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:05.280] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:05.283] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:05.290] ♻️  Service running, scheduling rerun...
+[03:13:06.425] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:06.429] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:06.431] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:06.435] ♻️  Service running, scheduling rerun...
+[03:13:07.560] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:07.564] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:07.569] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:07.572] ♻️  Service running, scheduling rerun...
+[03:13:08.737] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:08.739] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:08.742] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:08.744] ♻️  Service running, scheduling rerun...
+[03:13:09.892] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:09.902] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:09.905] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:09.911] ♻️  Service running, scheduling rerun...
+[03:13:11.073] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:11.079] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:11.085] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:11.094] ♻️  Service running, scheduling rerun...
+[03:13:12.238] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:12.240] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:12.241] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:12.248] ♻️  Service running, scheduling rerun...
+[03:13:13.366] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:13.370] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:13.372] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:13.378] ♻️  Service running, scheduling rerun...
+[03:13:14.506] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:14.512] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:14.515] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:14.519] ♻️  Service running, scheduling rerun...
+[03:13:15.679] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:15.685] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:15.688] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:15.695] ♻️  Service running, scheduling rerun...
+[03:13:16.854] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:16.859] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:16.861] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:16.865] ♻️  Service running, scheduling rerun...
+[03:13:18.011] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:18.016] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:18.018] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:18.021] ♻️  Service running, scheduling rerun...
+[03:13:19.130] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:19.133] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:19.136] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:19.141] ♻️  Service running, scheduling rerun...
+[03:13:20.270] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:20.275] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:20.277] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:20.282] ♻️  Service running, scheduling rerun...
+[03:13:21.435] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:21.439] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:21.441] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:21.446] ♻️  Service running, scheduling rerun...
+[03:13:22.580] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:22.585] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:22.589] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:22.595] ♻️  Service running, scheduling rerun...
+[03:13:23.743] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:23.748] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:23.750] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:23.758] ♻️  Service running, scheduling rerun...
+[03:13:24.913] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:24.918] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:24.921] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:24.926] ♻️  Service running, scheduling rerun...
+[03:13:26.044] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:26.048] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:26.051] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:26.055] ♻️  Service running, scheduling rerun...
+[03:13:27.204] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:27.208] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:27.211] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:27.216] ♻️  Service running, scheduling rerun...
+[03:13:28.361] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:28.368] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:28.371] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:28.374] ♻️  Service running, scheduling rerun...
+[03:13:29.474] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:29.477] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:29.481] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:29.486] ♻️  Service running, scheduling rerun...
+[03:13:30.734] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:30.739] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:30.742] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:30.748] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:32.868] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:32.872] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:32.875] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:32.882] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:35.068] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:35.071] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:35.073] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:35.078] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:37.194] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:37.197] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:37.201] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:37.207] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:39.315] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:39.318] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:39.319] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:39.324] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:41.454] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:41.458] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:41.460] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:41.465] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:43.558] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:43.560] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:43.563] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:43.566] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:45.717] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:45.723] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:45.728] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:45.734] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:47.858] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:47.861] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:47.865] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:47.871] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:50.010] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:50.013] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:50.015] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:50.019] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:52.155] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:52.160] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:52.164] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:52.168] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:54.705] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:54.715] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:54.717] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:54.720] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:56.833] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:56.837] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:56.840] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:56.846] ♻️  Service running but queue empty, light rerun after 2s...
+[03:13:58.984] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:13:58.992] 📺 After flush: Queue size: 0, Logs count: 3
+[03:13:58.996] 📺 Displaying 3 of 3 logs (last 100)
+[03:13:59.003] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:01.162] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:01.166] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:01.167] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:01.171] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:03.298] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:03.302] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:03.305] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:03.311] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:05.468] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:05.475] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:05.482] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:05.486] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:07.644] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:07.650] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:07.655] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:07.662] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:09.839] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:09.849] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:09.852] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:09.865] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:12.617] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:12.621] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:12.624] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:12.636] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:14.803] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:14.809] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:14.813] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:14.817] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:16.965] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:16.974] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:16.979] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:16.986] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:19.141] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:19.147] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:19.153] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:19.162] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:21.291] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:21.297] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:21.300] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:21.308] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:23.565] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:23.571] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:23.574] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:23.578] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:25.677] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:25.680] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:25.683] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:25.686] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:28.014] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:28.017] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:28.020] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:28.024] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:30.159] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:30.166] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:30.169] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:30.175] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:32.320] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:32.327] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:32.331] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:32.336] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:34.472] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:34.478] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:34.483] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:34.489] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:36.766] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:36.770] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:36.772] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:36.777] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:38.910] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:38.912] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:38.914] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:38.917] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:41.048] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:41.053] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:41.057] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:41.062] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:43.384] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:43.389] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:43.394] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:43.399] ♻️  Service running but queue empty, light rerun after 2s...
+[03:14:45.493] 📺 Rendering logs section. Queue size: 0, Logs count: 3
+[03:14:45.499] 📺 After flush: Queue size: 0, Logs count: 3
+[03:14:45.501] 📺 Displaying 3 of 3 logs (last 100)
+[03:14:45.504] ♻️  Service running but queue empty, light rerun after 2s...

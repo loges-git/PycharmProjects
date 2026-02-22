@@ -1,11 +1,20 @@
 import os
 import math
+import logging
 from datetime import datetime, timedelta
+
+logger = logging.getLogger("deployment_monitor.cycle_manager")
 
 
 class CycleManager:
     def __init__(self, base_audit_path: str):
-        self.base_audit_path = base_audit_path
+        try:
+            self.base_audit_path = base_audit_path
+            logger.debug(f"Initializing CycleManager - base: {base_audit_path}")
+            logger.info("CycleManager initialized successfully")
+        except Exception as e:
+            logger.error(f"Error initializing CycleManager: {e}")
+            raise
 
     def _get_friday_anchor_date(self) -> datetime:
         """
@@ -47,21 +56,41 @@ class CycleManager:
         Returns weekly cycle name (e.g., Feb_week03_2026).
         Reuses the same folder for the entire week.
         """
-        anchor_date = self._get_friday_anchor_date()
-        return self._get_base_cycle_name(anchor_date)
+        try:
+            anchor_date = self._get_friday_anchor_date()
+            cycle_name = self._get_base_cycle_name(anchor_date)
+            logger.info(f"Generated cycle name: {cycle_name}")
+            return cycle_name
+        except Exception as e:
+            logger.error(f"Error generating cycle name: {e}", exc_info=True)
+            raise
 
     def ensure_cycle_folder(self, cycle_name: str) -> str:
         """
         Create full cycle folder path if not exists.
         Returns full path.
+        
+        Raises:
+            OSError: If folder creation fails
         """
-        full_path = os.path.join(self.base_audit_path, cycle_name)
-
         try:
-            os.makedirs(full_path, exist_ok=True)
-        except Exception as e:
-            raise Exception(
-                f"Failed to create deployment cycle folder: {e}"
-            )
+            full_path = os.path.join(self.base_audit_path, cycle_name)
+            logger.debug(f"Ensuring cycle folder exists: {full_path}")
 
-        return full_path
+            os.makedirs(full_path, exist_ok=True)
+            logger.info(f"Cycle folder ready: {full_path}")
+            
+            return full_path
+        
+        except FileNotFoundError as e:
+            logger.error(f"Base audit path not found: {e}")
+            raise
+        except PermissionError as e:
+            logger.error(f"Permission denied creating cycle folder: {e}")
+            raise
+        except OSError as e:
+            logger.error(f"Failed to create deployment cycle folder: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Unexpected error creating cycle folder: {e}", exc_info=True)
+            raise
