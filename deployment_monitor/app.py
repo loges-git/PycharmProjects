@@ -189,8 +189,14 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                 if result.get("error_details"):
                     add_log("━ Error Details ━")
                     for error in result["error_details"]:
-                        add_log(f"  • File: {error['file']} | Code: {error['code']}")
+                        add_log(f"  • Unit: {error['unit']} | Code: {error['code']}")
                         add_log(f"    Message: {error['message'][:100]}...")
+                
+                # Display invalid objects created
+                if result.get("invalid_objects"):
+                    add_log("━ Invalid Objects Created ━")
+                    for invalid in result["invalid_objects"]:
+                        add_log(f"  • Object: {invalid['object']} (Type: {invalid['type']})")
 
                 zip_processor.cleanup()
 
