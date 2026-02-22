@@ -231,20 +231,32 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                 break
 
             try:
+                debug_log(f"THREAD: Processing file: {file.name}")
                 add_log(f"Detected file: {file.name}")
+                debug_log(f"THREAD: Added log for file detection")
 
                 zip_files_to_process = []
+                debug_log(f"THREAD: Created zip_files_to_process list")
 
-                if file.suffix.lower() == ".msg":
+                file_suffix = file.suffix.lower()
+                debug_log(f"THREAD: file.suffix.lower() = {file_suffix}")
+
+                if file_suffix == ".msg":
+                    debug_log(f"THREAD: File is .msg, extracting ZIP...")
                     add_log("Extracting ZIP from MSG...")
                     msg_processor = MsgProcessor(file, incoming_path)
                     extracted_zips = msg_processor.extract_zip_attachments()
                     zip_files_to_process.extend(extracted_zips)
+                    debug_log(f"THREAD: Extracted {len(extracted_zips)} ZIPs from MSG")
 
-                elif file.suffix.lower() == ".zip":
+                elif file_suffix == ".zip":
+                    debug_log(f"THREAD: File is .zip, adding to processing list")
                     zip_files_to_process.append(file)
 
+                debug_log(f"THREAD: Will process {len(zip_files_to_process)} ZIP files")
+
                 for zip_path in zip_files_to_process:
+                    debug_log(f"THREAD: Processing ZIP: {zip_path.name}")
 
                     add_log(f"Processing ZIP: {zip_path.name}")
 
@@ -304,12 +316,18 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                             add_log(f"⚠️ Email Exception: {str(e)}")
 
                     zip_processor.cleanup()
+                    debug_log(f"THREAD: ZIP processing complete for {zip_path.name}")
 
+                debug_log(f"THREAD: Marking file as processed: {file.name}")
                 monitor.mark_as_processed(file)
+                debug_log(f"THREAD: File marked as processed")
 
             except Exception as e:
-                add_log(f"❌ Error: {str(e)}")
-                debug_log(f"THREAD: Exception in file processing: {str(e)}")
+                error_msg = f"❌ Error: {str(e)}"
+                add_log(error_msg)
+                debug_log(f"THREAD: EXCEPTION in file processing: {str(e)}")
+                import traceback
+                debug_log(f"THREAD: Traceback: {traceback.format_exc()}")
                 
     except Exception as e:
         error_msg = f"❌ CRITICAL: {str(e)}"
