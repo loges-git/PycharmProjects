@@ -19,6 +19,7 @@ from styles import load_css
 
 # Thread-safe queue for background thread logging
 log_queue = queue.Queue()
+state_queue = queue.Queue()  # For thread-safe session state updates
 service_stop_event = threading.Event()  # Thread-safe stop signal
 
 # Debug log file
@@ -93,6 +94,27 @@ def flush_log_queue():
         debug_log(f"✅ FLUSH COMPLETE: {count} messages processed")
 
 
+def set_status(status: str):
+    """Queue a status update from background thread (THREAD-SAFE)"""
+    state_queue.put(("last_status", status))
+    debug_log(f"📤 Queued status update: {status}")
+
+
+def flush_state_queue():
+    """Process all state updates from queue (MAIN THREAD ONLY)"""
+    count = 0
+    while not state_queue.empty():
+        try:
+            key, value = state_queue.get_nowait()
+            st.session_state[key] = value
+            debug_log(f"✅ State update: {key} = {value}")
+            count += 1
+        except queue.Empty:
+            break
+    if count > 0:
+        debug_log(f"✅ STATE FLUSH: {count} updates applied")
+
+
 # ==========================================================
 # INPUT SECTION WITH OPEN FOLDER BUTTONS
 # ==========================================================
@@ -144,124 +166,142 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 def run_service(incoming_path_str: str, base_path_str: str, interval: int):
     """Background thread service for monitoring and processing deployments."""
-    add_log("🔍 Background service thread started...")
-    
-    incoming_path = Path(incoming_path_str)
-    base_audit_path = Path(base_path_str)
+    try:
+        add_log("🔍 Background service thread started...")
+        debug_log("🔍 run_service() called - starting setup phase")
+        
+        incoming_path = Path(incoming_path_str)
+        base_audit_path = Path(base_path_str)
 
-    config_path = Path("config.json")
+        config_path = Path("config.json")
 
-    if not config_path.exists():
-        add_log("❌ config.json not found.")
-        return
+        if not config_path.exists():
+            add_log("❌ config.json not found.")
+            debug_log("❌ config.json not found - returning")
+            return
 
-    if not incoming_path.exists():
-        add_log("❌ Incoming path not found.")
-        return
+        if not incoming_path.exists():
+            add_log("❌ Incoming path not found.")
+            debug_log("❌ Incoming path not found - returning")
+            return
 
-    if not base_audit_path.exists():
-        add_log("❌ Base audit path not found.")
-        return
+        if not base_audit_path.exists():
+            add_log("❌ Base audit path not found.")
+            debug_log("❌ Base audit path not found - returning")
+            return
 
-    with open(config_path, "r", encoding="utf-8") as f:
-        config = json.load(f)
+        debug_log("✅ All paths exist, loading config...")
+        with open(config_path, "r", encoding="utf-8") as f:
+            config = json.load(f)
 
-    cycle_manager = CycleManager(base_audit_path)
-    cycle_name = cycle_manager.generate_cycle_name()
-    cycle_manager.ensure_cycle_folder(cycle_name)
+        debug_log("✅ Config loaded, initializing managers...")
+        cycle_manager = CycleManager(base_audit_path)
+        cycle_name = cycle_manager.generate_cycle_name()
+        cycle_manager.ensure_cycle_folder(cycle_name)
 
-    archiver = Archiver(base_audit_path, cycle_name)
-    
-    # Using Polling Folder Monitor
-    monitor = FolderMonitor(incoming_path, poll_interval=interval)
+        archiver = Archiver(base_audit_path, cycle_name)
+        
+        # Using Polling Folder Monitor
+        debug_log(f"✅ Managers initialized, starting FolderMonitor on {incoming_path}")
+        monitor = FolderMonitor(incoming_path, poll_interval=interval)
 
-    add_log("✅ Service Started (Polling Method).")
+        add_log("✅ Service Started (Polling Method).")
+        debug_log("✅ Service setup complete, entering polling loop")
 
-    for file in monitor.start_polling():
+        for file in monitor.start_polling():
 
-        if service_stop_event.is_set():
-            add_log("🛑 Service Stopped.")
-            break
+            if service_stop_event.is_set():
+                add_log("🛑 Service Stopped.")
+                debug_log("🛑 stop_event detected, breaking polling loop")
+                break
 
-        try:
-            add_log(f"Detected file: {file.name}")
+            try:
+                add_log(f"Detected file: {file.name}")
 
-            zip_files_to_process = []
+                zip_files_to_process = []
 
-            if file.suffix.lower() == ".msg":
-                add_log("Extracting ZIP from MSG...")
-                msg_processor = MsgProcessor(file, incoming_path)
-                extracted_zips = msg_processor.extract_zip_attachments()
-                zip_files_to_process.extend(extracted_zips)
+                if file.suffix.lower() == ".msg":
+                    add_log("Extracting ZIP from MSG...")
+                    msg_processor = MsgProcessor(file, incoming_path)
+                    extracted_zips = msg_processor.extract_zip_attachments()
+                    zip_files_to_process.extend(extracted_zips)
 
-            elif file.suffix.lower() == ".zip":
-                zip_files_to_process.append(file)
+                elif file.suffix.lower() == ".zip":
+                    zip_files_to_process.append(file)
 
-            for zip_path in zip_files_to_process:
+                for zip_path in zip_files_to_process:
 
-                add_log(f"Processing ZIP: {zip_path.name}")
+                    add_log(f"Processing ZIP: {zip_path.name}")
 
-                zip_processor = ZipProcessor(zip_path, config)
-                metadata = zip_processor.process()
+                    zip_processor = ZipProcessor(zip_path, config)
+                    metadata = zip_processor.process()
 
-                validator = DeploymentValidator(metadata, config)
-                result = validator.validate_all()
+                    validator = DeploymentValidator(metadata, config)
+                    result = validator.validate_all()
 
-                status = result["status"]
-                message = result["message"]
+                    status = result["status"]
+                    message = result["message"]
 
-                jira_extractor = JiraExtractor(metadata["main_log_path"])
-                jira_units = jira_extractor.extract()
+                    jira_extractor = JiraExtractor(metadata["main_log_path"])
+                    jira_units = jira_extractor.extract()
 
-                archiver.archive(
-                    status=status,
-                    cluster=metadata["cluster"],
-                    instance=metadata["instance"],
-                    original_zip_path=zip_path,
-                    jira_units=jira_units
-                )
+                    archiver.archive(
+                        status=status,
+                        cluster=metadata["cluster"],
+                        instance=metadata["instance"],
+                        original_zip_path=zip_path,
+                        jira_units=jira_units
+                    )
 
-                st.session_state.last_status = status
-                add_log(f"Status: {status}")
-                add_log(f"Details: {message}")
+                    set_status(status)  # Thread-safe status update
+                    add_log(f"Status: {status}")
+                    add_log(f"Details: {message}")
+                    
+                    # Display detailed error information
+                    if result.get("error_details"):
+                        add_log("━ Error Details ━")
+                        for error in result["error_details"]:
+                            add_log(f"  • Unit: {error['unit']} | Code: {error['code']}")
+                            add_log(f"    Message: {error['message'][:100]}...")
+                    
+                    # Display invalid objects created
+                    if result.get("invalid_objects"):
+                        add_log("━ Invalid Objects Created ━")
+                        for invalid in result["invalid_objects"]:
+                            add_log(f"  • Object: {invalid['object']} (Type: {invalid['type']})")
+                    
+                    # Send email notification if enabled
+                    if st.session_state.get("send_email_notification", False):
+                        try:
+                            email_sender = EmailSender(config)
+                            success, email_msg = email_sender.send_deployment_summary(
+                                status=status,
+                                cluster=metadata["cluster"],
+                                instance=metadata["instance"],
+                                message=message
+                            )
+                            
+                            if success:
+                                add_log(f"📧 {email_msg}")
+                            else:
+                                add_log(f"⚠️ Email Error: {email_msg}")
+                        except Exception as e:
+                            add_log(f"⚠️ Email Exception: {str(e)}")
+
+                    zip_processor.cleanup()
+
+                monitor.mark_as_processed(file)
+
+            except Exception as e:
+                add_log(f"❌ Error: {str(e)}")
+                debug_log(f"❌ Exception in file processing: {str(e)}")
                 
-                # Display detailed error information
-                if result.get("error_details"):
-                    add_log("━ Error Details ━")
-                    for error in result["error_details"]:
-                        add_log(f"  • Unit: {error['unit']} | Code: {error['code']}")
-                        add_log(f"    Message: {error['message'][:100]}...")
-                
-                # Display invalid objects created
-                if result.get("invalid_objects"):
-                    add_log("━ Invalid Objects Created ━")
-                    for invalid in result["invalid_objects"]:
-                        add_log(f"  • Object: {invalid['object']} (Type: {invalid['type']})")
-                
-                # Send email notification if enabled
-                if st.session_state.get("send_email_notification", False):
-                    try:
-                        email_sender = EmailSender(config)
-                        success, email_msg = email_sender.send_deployment_summary(
-                            status=status,
-                            cluster=metadata["cluster"],
-                            instance=metadata["instance"],
-                            message=message
-                        )
-                        
-                        if success:
-                            add_log(f"📧 {email_msg}")
-                        else:
-                            add_log(f"⚠️ Email Error: {email_msg}")
-                    except Exception as e:
-                        add_log(f"⚠️ Email Exception: {str(e)}")
-
-                zip_processor.cleanup()
-
-            monitor.mark_as_processed(file)
-
-        except Exception as e:
-            add_log(f"❌ Error: {str(e)}")
+    except Exception as e:
+        error_msg = f"❌ CRITICAL: {str(e)}"
+        add_log(error_msg)
+        debug_log(f"🔥 CRITICAL EXCEPTION in run_service: {str(e)}")
+        import traceback
+        debug_log(f"Traceback: {traceback.format_exc()}")
 
 
 # ==========================================================
@@ -361,6 +401,7 @@ st.subheader("📜 Live Logs")
 
 # Flush any messages from background thread queue
 flush_log_queue()
+flush_state_queue()  # Also flush any state updates
 
 debug_log(f"📺 After flush: Queue size: {log_queue.qsize()}, Logs count: {len(st.session_state.logs)}")
 
@@ -374,7 +415,13 @@ st.text_area("Logs", log_text, height=300, label_visibility="collapsed")
 # AUTO REFRESH
 # ==========================================================
 
-if st.session_state.service_running:
-    debug_log(f"♻️  Service running, scheduling rerun...")
-    time.sleep(1)  # Reduced from 5s for faster log updates
+# Only rerun if service is running AND there are pending messages
+if st.session_state.service_running and not log_queue.empty():
+    debug_log(f"♻️  Service running with {log_queue.qsize()} pending messages, rerunning...")
+    time.sleep(0.5)  # Small delay to batch log messages
+    st.rerun()
+elif st.session_state.service_running:
+    # Service is running but no new messages - check less frequently
+    debug_log(f"♻️  Service running but queue empty, light rerun after 2s...")
+    time.sleep(2)
     st.rerun()
