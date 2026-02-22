@@ -5,10 +5,41 @@ Sends deployment validation summary emails via Outlook COM
 
 import win32com.client
 import logging
+import time
+from functools import wraps
 from pathlib import Path
 from typing import Dict, List, Optional
 
 logger = logging.getLogger("deployment_monitor.email_sender")
+
+
+def retry_with_backoff(max_retries: int = 3, base_delay: float = 1.0):
+    """
+    Decorator for retry logic with exponential backoff.
+    
+    Args:
+        max_retries: Maximum number of retry attempts
+        base_delay: Base delay in seconds (exponential growth: 1, 2, 4, 8...)
+    """
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(max_retries + 1):
+                try:
+                    return func(*args, **kwargs)
+                except (OSError, AttributeError) as e:
+                    if attempt < max_retries:
+                        delay = base_delay * (2 ** attempt)
+                        logger.warning(
+                            f"Attempt {attempt + 1}/{max_retries + 1} failed: {e}. "
+                            f"Retrying in {delay}s..."
+                        )
+                        time.sleep(delay)
+                    else:
+                        logger.error(f"All {max_retries + 1} retry attempts failed. Giving up.")
+                        raise
+        return wrapper
+    return decorator
 
 
 class EmailSender:
@@ -148,9 +179,10 @@ class EmailSender:
             logger.error(f"Error building body: {e}")
             raise
 
+    @retry_with_backoff(max_retries=3, base_delay=1.0)
     def send_mail(self, subject: str, body: str) -> tuple[bool, str]:
         """
-        Send email via Outlook COM.
+        Send email via Outlook COM with automatic retry on transient failures.
         
         Args:
             subject: Email subject

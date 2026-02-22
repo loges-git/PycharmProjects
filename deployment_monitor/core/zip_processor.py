@@ -9,6 +9,32 @@ logger = logging.getLogger("deployment_monitor.zip_processor")
 
 
 class ZipProcessor:
+    @staticmethod
+    def _validate_extract_path(extract_dir: Path, member_path: str) -> Path:
+        """
+        Validate that extracted file stays within extraction directory.
+        Prevents directory traversal attacks (e.g., ../../etc/passwd).
+        
+        Args:
+            extract_dir: The directory files are being extracted to
+            member_path: The path of the file being extracted
+            
+        Returns:
+            Validated absolute path
+            
+        Raises:
+            ValueError: If path traversal detected
+        """
+        member_abs = (extract_dir / member_path).resolve()
+        extract_abs = extract_dir.resolve()
+        
+        try:
+            member_abs.relative_to(extract_abs)
+            return member_abs
+        except ValueError:
+            logger.error(f"Path traversal detected: {member_path}")
+            raise ValueError(f"Malicious path detected in ZIP: {member_path}")
+    
     def __init__(self, zip_path: str | Path, config: dict):
         self.zip_path: Path = Path(zip_path)
         self.config = config
@@ -20,17 +46,17 @@ class ZipProcessor:
 
     def extract_zip(self) -> Path:
         """
-        Extract ZIP into temporary directory.
+        Extract ZIP into temporary directory with path traversal protection.
         
         Returns:
             Path to extracted directory
             
         Raises:
-            ValueError: If file is not a valid ZIP
+            ValueError: If file is not a valid ZIP or contains malicious paths
             IOError: If extraction fails
         """
         try:
-            logger.info(f"Starting ZIP extraction: {self.zip_path}")
+            logger.info(f"Starting ZIP extraction with path validation: {self.zip_path}")
             
             if not self.zip_path.exists():
                 raise FileNotFoundError(f"ZIP file not found: {self.zip_path}")
@@ -43,7 +69,10 @@ class ZipProcessor:
             logger.debug(f"Created temporary directory: {temp_dir}")
 
             with zipfile.ZipFile(self.zip_path, "r") as zip_ref:
-                zip_ref.extractall(temp_dir)
+                for member in zip_ref.namelist():
+                    # Validate member path
+                    self._validate_extract_path(temp_dir, member)
+                    zip_ref.extract(member, temp_dir)
             
             logger.info(f"ZIP extraction successful: {len(list(temp_dir.rglob('*')))} files extracted")
             return temp_dir
@@ -217,8 +246,25 @@ class ZipProcessor:
             raise
 
     # ==========================================================
-    # CLEANUP
+    # CLEANUP AND CONTEXT MANAGER
     # ==========================================================
+
+    def __enter__(self):
+        """Context manager entry point."""
+        logger.debug("Entering ZipProcessor context manager")
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit point - ensures cleanup on any exit."""
+        try:
+            logger.debug("Exiting ZipProcessor context manager")
+            if exc_type is not None:
+                logger.warning(f"Exception in context: {exc_type.__name__}: {exc_val}")
+            self.cleanup()
+            return False
+        except Exception as e:
+            logger.error(f"Error during context cleanup: {e}", exc_info=True)
+            raise
 
     def cleanup(self):
         """
