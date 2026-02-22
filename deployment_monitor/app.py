@@ -232,8 +232,9 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
 
             try:
                 debug_log(f"THREAD: Processing file: {file.name}")
+                debug_log(f"THREAD: About to call add_log for 'Detected file'")
                 add_log(f"Detected file: {file.name}")
-                debug_log(f"THREAD: Added log for file detection")
+                debug_log(f"THREAD: Called add_log for 'Detected file'")
 
                 zip_files_to_process = []
                 debug_log(f"THREAD: Created zip_files_to_process list")
@@ -258,20 +259,36 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                 for zip_path in zip_files_to_process:
                     debug_log(f"THREAD: Processing ZIP: {zip_path.name}")
 
+                    debug_log(f"THREAD: About to call add_log for 'Processing ZIP'")
                     add_log(f"Processing ZIP: {zip_path.name}")
+                    debug_log(f"THREAD: Called add_log for 'Processing ZIP'")
 
+                    debug_log(f"THREAD: Creating ZipProcessor...")
                     zip_processor = ZipProcessor(zip_path, config)
+                    debug_log(f"THREAD: ZipProcessor created, calling process()...")
+                    
                     metadata = zip_processor.process()
+                    debug_log(f"THREAD: ZipProcessor.process() returned, metadata keys: {list(metadata.keys())[:3]}")
 
+                    debug_log(f"THREAD: Creating DeploymentValidator...")
                     validator = DeploymentValidator(metadata, config)
+                    debug_log(f"THREAD: Calling validator.validate_all()...")
+                    
                     result = validator.validate_all()
+                    debug_log(f"THREAD: validator.validate_all() returned")
 
                     status = result["status"]
                     message = result["message"]
+                    debug_log(f"THREAD: Extracted status={status}, message={message[:50]}")
 
+                    debug_log(f"THREAD: Creating JiraExtractor...")
                     jira_extractor = JiraExtractor(metadata["main_log_path"])
+                    debug_log(f"THREAD: Calling jira_extractor.extract()...")
+                    
                     jira_units = jira_extractor.extract()
+                    debug_log(f"THREAD: jira_extractor returned {len(jira_units)} units")
 
+                    debug_log(f"THREAD: Calling archiver.archive()...")
                     archiver.archive(
                         status=status,
                         cluster=metadata["cluster"],
@@ -279,13 +296,23 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                         original_zip_path=zip_path,
                         jira_units=jira_units
                     )
+                    debug_log(f"THREAD: archiver.archive() complete")
 
+                    debug_log(f"THREAD: Calling set_status({status})...")
                     set_status(status)  # Thread-safe status update
+                    debug_log(f"THREAD: set_status complete")
+                    
+                    debug_log(f"THREAD: About to call add_log for Status")
                     add_log(f"Status: {status}")
+                    debug_log(f"THREAD: Called add_log for Status")
+                    
+                    debug_log(f"THREAD: About to call add_log for Details")
                     add_log(f"Details: {message}")
+                    debug_log(f"THREAD: Called add_log for Details")
                     
                     # Display detailed error information
                     if result.get("error_details"):
+                        debug_log(f"THREAD: Found {len(result['error_details'])} error details")
                         add_log("━ Error Details ━")
                         for error in result["error_details"]:
                             add_log(f"  • Unit: {error['unit']} | Code: {error['code']}")
@@ -293,12 +320,15 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                     
                     # Display invalid objects created
                     if result.get("invalid_objects"):
+                        debug_log(f"THREAD: Found {len(result['invalid_objects'])} invalid objects")
                         add_log("━ Invalid Objects Created ━")
                         for invalid in result["invalid_objects"]:
                             add_log(f"  • Object: {invalid['object']} (Type: {invalid['type']})")
                     
                     # Send email notification if enabled
+                    debug_log(f"THREAD: Checking email notification setting...")
                     if st.session_state.get("send_email_notification", False):
+                        debug_log(f"THREAD: Email is enabled, sending...")
                         try:
                             email_sender = EmailSender(config)
                             success, email_msg = email_sender.send_deployment_summary(
@@ -314,7 +344,11 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
                                 add_log(f"⚠️ Email Error: {email_msg}")
                         except Exception as e:
                             add_log(f"⚠️ Email Exception: {str(e)}")
+                            debug_log(f"THREAD: Email exception: {str(e)}")
+                    else:
+                        debug_log(f"THREAD: Email is disabled")
 
+                    debug_log(f"THREAD: Calling zip_processor.cleanup()...")
                     zip_processor.cleanup()
                     debug_log(f"THREAD: ZIP processing complete for {zip_path.name}")
 
