@@ -1,0 +1,4 @@
+[03:02:20.171] 🔧 Initialized: service_running = False
+[03:02:20.176] 🔧 Initialized: logs = []
+[03:02:20.182] 🔧 Initialized: last_status = None
+[03:02:20.189] 🔧 Initialized: last_sound_status = None

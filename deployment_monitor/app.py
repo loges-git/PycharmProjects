@@ -278,21 +278,31 @@ with col_email:
 col5, col6 = st.columns(2)
 
 with col5:
-    if st.button("▶ Start Service") and not st.session_state.service_running:
-        st.session_state.service_running = True
-        service_stop_event.clear()  # Clear stop flag
-        add_log("🚀 Service started via UI button")
-        thread = threading.Thread(
-            target=run_service,
-            args=(incoming_input, base_input, poll_interval),
-            daemon=True
-        )
-        thread.start()
+    if st.button("▶ Start Service"):
+        debug_log(f"🖱️  START button clicked. service_running={st.session_state.service_running}")
+        if not st.session_state.service_running:
+            st.session_state.service_running = True
+            service_stop_event.clear()  # Clear stop flag
+            debug_log(f"🚦 Setting service_running=True, creating thread...")
+            add_log("🚀 Service started via UI button")
+            debug_log(f"📝 Added UI button log (queue size={log_queue.qsize()})")
+            thread = threading.Thread(
+                target=run_service,
+                args=(incoming_input, base_input, poll_interval),
+                daemon=True,
+                name="DeploymentServiceWorker"
+            )
+            debug_log(f"🧵 Thread created: {thread.name}")
+            thread.start()
+            debug_log(f"🧵 Thread started (is_alive={thread.is_alive()})")
 
 with col6:
-    if st.button("⏹ Stop Service") and st.session_state.service_running:
-        st.session_state.service_running = False
-        service_stop_event.set()  # Signal thread to stop
+    if st.button("⏹ Stop Service"):
+        debug_log(f"🖱️  STOP button clicked. service_running={st.session_state.service_running}")
+        if st.session_state.service_running:
+            st.session_state.service_running = False
+            service_stop_event.set()  # Signal thread to stop
+            debug_log("🛑 Setting service_running=False and service_stop_event=set()")
 
 
 # ==========================================================
@@ -345,13 +355,19 @@ if (
 # LIVE LOG DISPLAY (with queue flushing)
 # ==========================================================
 
+debug_log(f"📺 Rendering logs section. Queue size: {log_queue.qsize()}, Logs count: {len(st.session_state.logs)}")
+
 st.subheader("📜 Live Logs")
 
 # Flush any messages from background thread queue
 flush_log_queue()
 
+debug_log(f"📺 After flush: Queue size: {log_queue.qsize()}, Logs count: {len(st.session_state.logs)}")
+
 # Display logs
-st.text_area("Logs", "\n".join(st.session_state.logs[-100:]), height=300, label_visibility="collapsed")
+log_text = "\n".join(st.session_state.logs[-100:])
+debug_log(f"📺 Displaying {len(st.session_state.logs[-100:])} of {len(st.session_state.logs)} logs (last 100)")
+st.text_area("Logs", log_text, height=300, label_visibility="collapsed")
 
 
 # ==========================================================
@@ -359,5 +375,6 @@ st.text_area("Logs", "\n".join(st.session_state.logs[-100:]), height=300, label_
 # ==========================================================
 
 if st.session_state.service_running:
+    debug_log(f"♻️  Service running, scheduling rerun...")
     time.sleep(1)  # Reduced from 5s for faster log updates
     st.rerun()
