@@ -61,7 +61,7 @@ def add_log(message: str):
 st.markdown('<div class="glass-card">', unsafe_allow_html=True)
 st.markdown("### 📥 Configuration")
 
-col1, col2 = st.columns([4, 1])
+col1, col2 = st.columns([4, 1], gap="medium")
 
 with col1:
     incoming_input = st.text_input(
@@ -70,8 +70,7 @@ with col1:
     )
 
 with col2:
-    st.write("") # Spacer for alignment
-    st.write("")
+    st.write("")  # Align button with input
     if st.button("📂 Open Incoming", use_container_width=True):
         if Path(incoming_input).exists():
             os.startfile(incoming_input)
@@ -79,7 +78,7 @@ with col2:
             st.error("Incoming path does not exist.")
 
 
-col3, col4 = st.columns([4, 1])
+col3, col4 = st.columns([4, 1], gap="medium")
 
 with col3:
     base_input = st.text_input(
@@ -88,8 +87,7 @@ with col3:
     )
 
 with col4:
-    st.write("") # Spacer
-    st.write("")
+    st.write("")  # Align button with input
     if st.button("📁 Open Base", use_container_width=True):
         if Path(base_input).exists():
             os.startfile(base_input)
