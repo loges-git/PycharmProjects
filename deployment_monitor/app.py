@@ -3,6 +3,7 @@ import threading
 import time
 import json
 import os
+import queue
 from pathlib import Path
 
 from core.folder_monitor import FolderMonitor
@@ -14,6 +15,10 @@ from core.archiver import Archiver
 from core.cycle_manager import CycleManager
 from core.email_sender import EmailSender
 from styles import load_css
+
+# Thread-safe queue for background thread logging
+log_queue = queue.Queue()
+service_stop_event = threading.Event()  # Thread-safe stop signal
 
 
 # ==========================================================
@@ -46,12 +51,23 @@ if "last_sound_status" not in st.session_state:
 
 
 # ==========================================================
-# LOG FUNCTION
+# LOG FUNCTION (THREAD-SAFE)
 # ==========================================================
 
 def add_log(message: str):
+    """Add log message to thread-safe queue"""
     timestamp = time.strftime("%H:%M:%S")
-    st.session_state.logs.append(f"[{timestamp}] {message}")
+    log_queue.put(f"[{timestamp}] {message}")
+
+
+def flush_log_queue():
+    """Process all messages from queue and add to session state (MAIN THREAD ONLY)"""
+    while not log_queue.empty():
+        try:
+            msg = log_queue.get_nowait()
+            st.session_state.logs.append(msg)
+        except queue.Empty:
+            break
 
 
 # ==========================================================
@@ -138,7 +154,7 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int):
 
     for file in monitor.start_polling():
 
-        if not st.session_state.service_running:
+        if service_stop_event.is_set():
             add_log("🛑 Service Stopped.")
             break
 
@@ -239,6 +255,7 @@ col5, col6 = st.columns(2)
 with col5:
     if st.button("▶ Start Service") and not st.session_state.service_running:
         st.session_state.service_running = True
+        service_stop_event.clear()  # Clear stop flag
         thread = threading.Thread(
             target=run_service,
             args=(incoming_input, base_input, poll_interval),
@@ -249,6 +266,7 @@ with col5:
 with col6:
     if st.button("⏹ Stop Service") and st.session_state.service_running:
         st.session_state.service_running = False
+        service_stop_event.set()  # Signal thread to stop
 
 
 # ==========================================================
@@ -298,11 +316,16 @@ if (
 
 
 # ==========================================================
-# LIVE LOG DISPLAY
+# LIVE LOG DISPLAY (with queue flushing)
 # ==========================================================
 
 st.subheader("📜 Live Logs")
-st.text_area("", "\n".join(st.session_state.logs[-100:]), height=300)
+
+# Flush any messages from background thread queue
+flush_log_queue()
+
+# Display logs
+st.text_area("Logs", "\n".join(st.session_state.logs[-100:]), height=300, label_visibility="collapsed")
 
 
 # ==========================================================
@@ -310,5 +333,5 @@ st.text_area("", "\n".join(st.session_state.logs[-100:]), height=300)
 # ==========================================================
 
 if st.session_state.service_running:
-    time.sleep(5)
+    time.sleep(1)  # Reduced from 5s for faster log updates
     st.rerun()
