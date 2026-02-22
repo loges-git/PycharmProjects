@@ -221,6 +221,19 @@ class DeploymentMonitorApp:
                         status = result["status"]
                         self.add_log(f"Status: {status}")
                         self.add_log(f"Details: {result['message']}")
+                        
+                        # Display detailed error information
+                        if result.get("error_details"):
+                            self.add_log("━ Error Details ━")
+                            for error in result["error_details"]:
+                                self.add_log(f"  • Unit: {error['unit']} | Code: {error['code']}")
+                                self.add_log(f"    Message: {error['message'][:100]}...")
+                        
+                        # Display invalid objects created
+                        if result.get("invalid_objects"):
+                            self.add_log("━ Invalid Objects Created ━")
+                            for invalid in result["invalid_objects"]:
+                                self.add_log(f"  • Object: {invalid['object']} (Type: {invalid['type']})")
 
                         jira_extractor = JiraExtractor(meta["main_log_path"])
                         jira_units = jira_extractor.extract()
