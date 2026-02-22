@@ -1,6 +1,9 @@
 import re
+import logging
 from pathlib import Path
 from typing import Dict, List, Set, Optional
+
+logger = logging.getLogger("deployment_monitor.jira_extractor")
 
 
 class JiraExtractor:
@@ -12,7 +15,13 @@ class JiraExtractor:
     EXECUTION_START_PATTERN = re.compile(r"- execution start", re.IGNORECASE)
 
     def __init__(self, main_log_path: Path):
-        self.main_log_path = Path(main_log_path)
+        try:
+            self.main_log_path = Path(main_log_path)
+            logger.debug(f"Initializing JiraExtractor - log: {self.main_log_path}")
+            logger.info("JiraExtractor initialized successfully")
+        except Exception as e:
+            logger.error(f"Error initializing JiraExtractor: {e}")
+            raise
 
     # ==========================================================
     # PUBLIC METHOD
@@ -25,38 +34,48 @@ class JiraExtractor:
             "BANKING-408942": ["UNIT_A.INC", "UNIT_B.DBP"],
             "BANKING-123444": ["UNIT_X.SQL"]
         }
+        
+        Raises:
+            FileNotFoundError: If log file not found
         """
+        try:
+            logger.info(f"Starting JIRA extraction from {self.main_log_path.name}")
+            
+            jira_unit_map: Dict[str, Set[str]] = {}
+            current_jira: Optional[str] = None
 
-        jira_unit_map: Dict[str, Set[str]] = {}
-        current_jira: Optional[str] = None
+            with open(self.main_log_path, "r", errors="ignore") as f:
+                for line in f:
+                    # Detect JIRA
+                    jira_match = self.JIRA_PATTERN.search(line)
+                    if jira_match:
+                        current_jira = jira_match.group(0).upper()
+                        if current_jira not in jira_unit_map:
+                            jira_unit_map[current_jira] = set()
 
-        with open(self.main_log_path, "r", errors="ignore") as f:
-            for line in f:
-                # --------------------------------------------------
-                # Detect JIRA
-                # --------------------------------------------------
-                jira_match = self.JIRA_PATTERN.search(line)
-                if jira_match:
-                    current_jira = jira_match.group(0).upper()
-                    if current_jira not in jira_unit_map:
-                        jira_unit_map[current_jira] = set()
+                    # Detect Execution Start
+                    if self.EXECUTION_START_PATTERN.search(line):
+                        unit = self._extract_unit_from_line(line)
 
-                # --------------------------------------------------
-                # Detect Execution Start
-                # --------------------------------------------------
-                if self.EXECUTION_START_PATTERN.search(line):
-                    unit = self._extract_unit_from_line(line)
+                        if unit is not None and current_jira is not None:
+                            jira_unit_map[current_jira].add(unit)
 
-                    if unit is not None and current_jira is not None:
-                        jira_unit_map[current_jira].add(unit)
+            # Convert sets to sorted lists
+            final_map: Dict[str, List[str]] = {
+                jira: sorted(units)
+                for jira, units in jira_unit_map.items()
+            }
 
-        # Convert sets to sorted lists
-        final_map: Dict[str, List[str]] = {
-            jira: sorted(units)
-            for jira, units in jira_unit_map.items()
-        }
-
-        return final_map
+            total_units = sum(len(u) for u in final_map.values())
+            logger.info(f"JIRA extraction complete: {len(final_map)} JIRAs, {total_units} total units")
+            return final_map
+        
+        except FileNotFoundError as e:
+            logger.error(f"Log file not found for JIRA extraction: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Error extracting JIRA data: {e}", exc_info=True)
+            raise
 
     # ==========================================================
     # INTERNAL HELPERS

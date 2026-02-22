@@ -4,8 +4,11 @@ Sends deployment validation summary emails via Outlook COM
 """
 
 import win32com.client
+import logging
 from pathlib import Path
 from typing import Dict, List, Optional
+
+logger = logging.getLogger("deployment_monitor.email_sender")
 
 
 class EmailSender:
@@ -16,17 +19,66 @@ class EmailSender:
 
     def __init__(self, config: dict):
         """
-        Initialize EmailSender with configuration.
+        Initialize EmailSender with configuration and validate templates.
         
         Args:
             config: Full config dict containing email_settings
+            
+        Raises:
+            ValueError: If templates missing required placeholders
         """
-        self.config = config
-        self.email_config = config.get("email_settings", {})
-        self.enabled = self.email_config.get("enabled", False)
-        self.recipients = self.email_config.get("recipients", [])
-        self.subject_templates = self.email_config.get("subject_templates", {})
-        self.body_template = self.email_config.get("body_template", "")
+        try:
+            self.config = config
+            self.email_config = config.get("email_settings", {})
+            self.enabled = self.email_config.get("enabled", False)
+            self.recipients = self.email_config.get("recipients", [])
+            self.subject_templates = self.email_config.get("subject_templates", {})
+            self.body_template = self.email_config.get("body_template", "")
+            
+            logger.info(f"EmailSender initialized - enabled={self.enabled}, recipients={len(self.recipients)}")
+            
+            # Validate templates if enabled
+            if self.enabled:
+                self._validate_templates()
+                logger.info("Email templates validated successfully")
+        
+        except ValueError as e:
+            logger.error(f"Template validation failed: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Unexpected error during EmailSender initialization: {e}")
+            raise
+    
+    def _validate_templates(self) -> None:
+        """Validate that all templates contain required placeholders."""
+        required_placeholders = {"status", "cluster", "instance"}
+        
+        # Check subject templates
+        if not self.subject_templates:
+            raise ValueError("No subject_templates configured in email_settings")
+        
+        for status, template in self.subject_templates.items():
+            if not isinstance(template, str):
+                raise ValueError(f"Subject template for {status} is not a string")
+            
+            # Extract placeholders
+            import string
+            placeholders = set(field_name for _, field_name, _, _ in string.Formatter().parse(template) if field_name)
+            missing = required_placeholders - placeholders
+            
+            if missing:
+                raise ValueError(f"Subject template for {status} missing required placeholders: {missing}")
+        
+        # Check body template
+        if not self.body_template:
+            raise ValueError("body_template is empty in email_settings")
+        
+        import string
+        placeholders = set(field_name for _, field_name, _, _ in string.Formatter().parse(self.body_template) if field_name)
+        missing = required_placeholders - placeholders
+        
+        if missing and {"message"} - missing:  # message is optional
+            raise ValueError(f"Body template missing required placeholders: {missing}")
 
     def build_subject(self, status: str, cluster: str, instance: str) -> str:
         """
@@ -39,14 +91,28 @@ class EmailSender:
             
         Returns:
             Formatted subject line
+            
+        Raises:
+            KeyError: If required placeholder missing from template
         """
-        template = self.subject_templates.get(status, "Deployment Validation - {status}")
+        try:
+            template = self.subject_templates.get(status, "Deployment Validation - {status}")
+            
+            subject = template.format(
+                status=status,
+                cluster=cluster,
+                instance=instance
+            )
+            
+            logger.debug(f"Subject built for {status}: {subject}")
+            return subject
         
-        return template.format(
-            status=status,
-            cluster=cluster,
-            instance=instance
-        )
+        except KeyError as e:
+            logger.error(f"Missing placeholder in subject template for {status}: {e}")
+            raise ValueError(f"Subject template for {status} has invalid placeholder: {e}")
+        except Exception as e:
+            logger.error(f"Error building subject for {status}: {e}")
+            raise
 
     def build_body(self, status: str, cluster: str, instance: str, message: str) -> str:
         """
@@ -60,13 +126,27 @@ class EmailSender:
             
         Returns:
             Formatted body text
+            
+        Raises:
+            KeyError: If required placeholder missing from template
         """
-        return self.body_template.format(
-            status=status,
-            cluster=cluster,
-            instance=instance,
-            message=message
-        )
+        try:
+            body = self.body_template.format(
+                status=status,
+                cluster=cluster,
+                instance=instance,
+                message=message
+            )
+            
+            logger.debug(f"Body built for {status} - {cluster}/{instance}")
+            return body
+        
+        except KeyError as e:
+            logger.error(f"Missing placeholder in body template: {e}")
+            raise ValueError(f"Body template has invalid placeholder: {e}")
+        except Exception as e:
+            logger.error(f"Error building body: {e}")
+            raise
 
     def send_mail(self, subject: str, body: str) -> tuple[bool, str]:
         """
@@ -80,12 +160,16 @@ class EmailSender:
             Tuple of (success: bool, message: str)
         """
         if not self.enabled:
+            logger.info("Email notification disabled in config")
             return False, "Email notification disabled in config"
 
         if not self.recipients:
+            logger.error("No recipients configured for email")
             return False, "No recipients configured"
 
         try:
+            logger.info(f"Preparing to send email to {len(self.recipients)} recipients")
+            
             # Create Outlook COM object
             outlook = win32com.client.Dispatch("Outlook.Application")
             
@@ -103,10 +187,21 @@ class EmailSender:
             mail.Send()
             
             recipient_list = ", ".join(self.recipients)
-            return True, f"Email sent to: {recipient_list}"
+            success_msg = f"Email sent to: {recipient_list}"
+            logger.info(success_msg)
+            return True, success_msg
 
+        except OSError as e:
+            error_msg = f"Outlook COM error (ensure Outlook is running): {str(e)}"
+            logger.error(error_msg)
+            return False, error_msg
+        except AttributeError as e:
+            error_msg = f"Invalid email object structure: {str(e)}"
+            logger.error(error_msg)
+            return False, error_msg
         except Exception as e:
-            error_msg = f"Failed to send email: {str(e)}"
+            error_msg = f"Unexpected error sending email: {str(e)}"
+            logger.error(error_msg, exc_info=True)
             return False, error_msg
 
     def send_deployment_summary(self, status: str, cluster: str, instance: str, message: str) -> tuple[bool, str]:
@@ -122,7 +217,20 @@ class EmailSender:
         Returns:
             Tuple of (success: bool, message: str)
         """
-        subject = self.build_subject(status, cluster, instance)
-        body = self.build_body(status, cluster, instance, message)
+        try:
+            logger.info(f"Building deployment summary email for {cluster}/{instance} - {status}")
+            
+            subject = self.build_subject(status, cluster, instance)
+            body = self.build_body(status, cluster, instance, message)
+            
+            success, msg = self.send_mail(subject, body)
+            return success, msg
         
-        return self.send_mail(subject, body)
+        except ValueError as e:
+            error_msg = f"Template validation error: {str(e)}"
+            logger.error(error_msg)
+            return False, error_msg
+        except Exception as e:
+            error_msg = f"Unexpected error building deployment summary: {str(e)}"
+            logger.error(error_msg, exc_info=True)
+            return False, error_msg
