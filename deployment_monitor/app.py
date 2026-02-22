@@ -5,6 +5,7 @@ import json
 import os
 import queue
 from pathlib import Path
+from datetime import datetime
 
 from core.folder_monitor import FolderMonitor
 from core.msg_processor import MsgProcessor
@@ -19,6 +20,17 @@ from styles import load_css
 # Thread-safe queue for background thread logging
 log_queue = queue.Queue()
 service_stop_event = threading.Event()  # Thread-safe stop signal
+
+# Debug log file
+DEBUG_LOG_FILE = Path("queue_debug.log")
+
+def debug_log(message: str):
+    """Write to file for debugging (non-blocking)"""
+    try:
+        with open(DEBUG_LOG_FILE, "a", encoding="utf-8") as f:
+            f.write(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] {message}\n")
+    except:
+        pass  # Silently fail if writing fails
 
 
 # ==========================================================
@@ -39,15 +51,19 @@ st.title("🚀 Deployment Log Verification Automation")
 
 if "service_running" not in st.session_state:
     st.session_state.service_running = False
+    debug_log("🔧 Initialized: service_running = False")
 
 if "logs" not in st.session_state:
     st.session_state.logs = []
+    debug_log("🔧 Initialized: logs = []")
 
 if "last_status" not in st.session_state:
     st.session_state.last_status = None
+    debug_log("🔧 Initialized: last_status = None")
 
 if "last_sound_status" not in st.session_state:
     st.session_state.last_sound_status = None
+    debug_log("🔧 Initialized: last_sound_status = None")
 
 
 # ==========================================================
@@ -57,17 +73,24 @@ if "last_sound_status" not in st.session_state:
 def add_log(message: str):
     """Add log message to thread-safe queue"""
     timestamp = time.strftime("%H:%M:%S")
-    log_queue.put(f"[{timestamp}] {message}")
+    formatted_msg = f"[{timestamp}] {message}"
+    log_queue.put(formatted_msg)
+    debug_log(f"⬅️ QUEUE.PUT (depth={log_queue.qsize()}): {message}")
 
 
 def flush_log_queue():
     """Process all messages from queue and add to session state (MAIN THREAD ONLY)"""
+    count = 0
     while not log_queue.empty():
         try:
             msg = log_queue.get_nowait()
             st.session_state.logs.append(msg)
+            debug_log(f"➡️ FLUSHED (count={count+1}): {msg[:50]}")
+            count += 1
         except queue.Empty:
             break
+    if count > 0:
+        debug_log(f"✅ FLUSH COMPLETE: {count} messages processed")
 
 
 # ==========================================================
