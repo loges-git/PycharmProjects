@@ -4,6 +4,7 @@ import time
 import json
 import os
 import queue
+import subprocess
 from pathlib import Path
 
 from core.folder_monitor import FolderMonitor
@@ -84,7 +85,11 @@ with col2:
     st.write("")  # Align button with input
     if st.button("📂 Open Incoming", use_container_width=True):
         if Path(incoming_input).exists():
-            os.startfile(incoming_input)
+            try:
+                # Use subprocess with explorer for proper window display
+                subprocess.Popen(['explorer', '/select,', incoming_input])
+            except Exception as e:
+                st.error(f"Could not open folder: {e}")
         else:
             st.error("Incoming path does not exist.")
 
@@ -101,7 +106,11 @@ with col4:
     st.write("")  # Align button with input
     if st.button("📁 Open Base", use_container_width=True):
         if Path(base_input).exists():
-            os.startfile(base_input)
+            try:
+                # Use subprocess with explorer for proper window display
+                subprocess.Popen(['explorer', '/select,', base_input])
+            except Exception as e:
+                st.error(f"Could not open folder: {e}")
         else:
             st.error("Base path does not exist.")
 
