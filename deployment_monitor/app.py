@@ -16,6 +16,13 @@ from core.cycle_manager import CycleManager
 from core.email_sender import EmailSender
 from styles import load_css
 
+# Check if watchdog is available
+try:
+    from core.folder_monitor import RealTimeFolderMonitor, WATCHDOG_AVAILABLE
+except ImportError:
+    WATCHDOG_AVAILABLE = False
+    RealTimeFolderMonitor = None
+
 # Import shared state from SEPARATE MODULE (persists across Streamlit reruns)
 import shared_state
 
@@ -92,7 +99,13 @@ with col4:
             st.error("Base path does not exist.")
 
 
-poll_interval = st.number_input("Poll Interval (seconds)", 5, 300, 5)
+if WATCHDOG_AVAILABLE:
+    st.info("📡 **Real-Time Monitoring Enabled** - Files detected instantly via Watchdog")
+    poll_interval = 5  # Not used for watchdog, but kept for compatibility
+else:
+    st.warning("⏱️ Using Polling Mode - Files checked every 5 seconds")
+    poll_interval = st.number_input("Poll Interval (seconds)", 1, 300, 5)
+
 st.markdown('</div>', unsafe_allow_html=True)
 
 
@@ -109,7 +122,7 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int, send_
     Args:
         incoming_path_str: Path to incoming folder
         base_path_str: Path to base audit folder
-        interval: Poll interval in seconds
+        interval: Poll interval (ignored if watchdog is available - for backward compat)
         send_email: Whether to send email notifications (captured from UI at start time)
     """
     log = shared_state.add_log  # Local alias for convenience
@@ -142,9 +155,16 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int, send_
         cycle_manager.ensure_cycle_folder(cycle_name)
 
         archiver = Archiver(base_audit_path, cycle_name)
-        monitor = FolderMonitor(incoming_path, poll_interval=interval)
+        
+        # Use watchdog-based real-time monitoring if available, otherwise fall back to polling
+        if WATCHDOG_AVAILABLE:
+            log("👁️ Using Real-Time Folder Monitoring (Watchdog)")
+            monitor = RealTimeFolderMonitor(incoming_path)
+        else:
+            log("⏱️ Using Polling-Based Folder Monitoring (5s interval)")
+            monitor = FolderMonitor(incoming_path, poll_interval=interval)
 
-        log("✅ Service Started (Polling Method).")
+        log("✅ Service Started - Monitoring for new files...")
 
         for file in monitor.start_polling():
             if stop.is_set():
