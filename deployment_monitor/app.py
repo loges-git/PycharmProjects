@@ -4,6 +4,7 @@ import time
 import json
 import os
 import queue
+import subprocess
 from pathlib import Path
 
 from core.folder_monitor import FolderMonitor
@@ -15,6 +16,20 @@ from core.archiver import Archiver
 from core.cycle_manager import CycleManager
 from core.email_sender import EmailSender
 from styles import load_css
+
+# Streamlit REQUIRES watchdog for real-time monitoring
+try:
+    from core.folder_monitor import RealTimeFolderMonitor, WATCHDOG_AVAILABLE
+    if not WATCHDOG_AVAILABLE:
+        import sys
+        print("ERROR: Watchdog is required for Streamlit mode")
+        print("Install with: pip install watchdog")
+        sys.exit(1)
+except ImportError:
+    import sys
+    print("ERROR: Watchdog is required for Streamlit mode")
+    print("Install with: pip install watchdog")
+    sys.exit(1)
 
 # Import shared state from SEPARATE MODULE (persists across Streamlit reruns)
 import shared_state
@@ -70,7 +85,11 @@ with col2:
     st.write("")  # Align button with input
     if st.button("📂 Open Incoming", use_container_width=True):
         if Path(incoming_input).exists():
-            os.startfile(incoming_input)
+            try:
+                # Use subprocess with explorer for proper window display
+                subprocess.Popen(['explorer', '/select,', incoming_input])
+            except Exception as e:
+                st.error(f"Could not open folder: {e}")
         else:
             st.error("Incoming path does not exist.")
 
@@ -87,12 +106,22 @@ with col4:
     st.write("")  # Align button with input
     if st.button("📁 Open Base", use_container_width=True):
         if Path(base_input).exists():
-            os.startfile(base_input)
+            try:
+                # Use subprocess with explorer for proper window display
+                subprocess.Popen(['explorer', '/select,', base_input])
+            except Exception as e:
+                st.error(f"Could not open folder: {e}")
         else:
             st.error("Base path does not exist.")
 
 
-poll_interval = st.number_input("Poll Interval (seconds)", 5, 300, 5)
+if WATCHDOG_AVAILABLE:
+    st.info("📡 **Real-Time Monitoring Enabled** - Files detected instantly via Watchdog")
+else:
+    st.error("❌ ERROR: Watchdog is required for Streamlit mode. Files detected instantly. Install: pip install watchdog")
+
+poll_interval = 5  # Not used in watchdog mode, kept for background compatibility
+
 st.markdown('</div>', unsafe_allow_html=True)
 
 
@@ -109,7 +138,7 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int, send_
     Args:
         incoming_path_str: Path to incoming folder
         base_path_str: Path to base audit folder
-        interval: Poll interval in seconds
+        interval: Poll interval (ignored if watchdog is available - for backward compat)
         send_email: Whether to send email notifications (captured from UI at start time)
     """
     log = shared_state.add_log  # Local alias for convenience
@@ -142,9 +171,12 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int, send_
         cycle_manager.ensure_cycle_folder(cycle_name)
 
         archiver = Archiver(base_audit_path, cycle_name)
-        monitor = FolderMonitor(incoming_path, poll_interval=interval)
+        
+        # Streamlit REQUIRES watchdog for real-time monitoring
+        log("👁️ Using Real-Time Folder Monitoring (Watchdog)")
+        monitor = RealTimeFolderMonitor(incoming_path)
 
-        log("✅ Service Started (Polling Method).")
+        log("✅ Service Started - Monitoring for new files...")
 
         for file in monitor.start_polling():
             if stop.is_set():
