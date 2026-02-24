@@ -16,12 +16,19 @@ from core.cycle_manager import CycleManager
 from core.email_sender import EmailSender
 from styles import load_css
 
-# Check if watchdog is available
+# Streamlit REQUIRES watchdog for real-time monitoring
 try:
     from core.folder_monitor import RealTimeFolderMonitor, WATCHDOG_AVAILABLE
+    if not WATCHDOG_AVAILABLE:
+        import sys
+        print("ERROR: Watchdog is required for Streamlit mode")
+        print("Install with: pip install watchdog")
+        sys.exit(1)
 except ImportError:
-    WATCHDOG_AVAILABLE = False
-    RealTimeFolderMonitor = None
+    import sys
+    print("ERROR: Watchdog is required for Streamlit mode")
+    print("Install with: pip install watchdog")
+    sys.exit(1)
 
 # Import shared state from SEPARATE MODULE (persists across Streamlit reruns)
 import shared_state
@@ -101,10 +108,10 @@ with col4:
 
 if WATCHDOG_AVAILABLE:
     st.info("📡 **Real-Time Monitoring Enabled** - Files detected instantly via Watchdog")
-    poll_interval = 5  # Not used for watchdog, but kept for compatibility
 else:
-    st.warning("⏱️ Using Polling Mode - Files checked every 5 seconds")
-    poll_interval = st.number_input("Poll Interval (seconds)", 1, 300, 5)
+    st.error("❌ ERROR: Watchdog is required for Streamlit mode. Files detected instantly. Install: pip install watchdog")
+
+poll_interval = 5  # Not used in watchdog mode, kept for background compatibility
 
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -156,13 +163,9 @@ def run_service(incoming_path_str: str, base_path_str: str, interval: int, send_
 
         archiver = Archiver(base_audit_path, cycle_name)
         
-        # Use watchdog-based real-time monitoring if available, otherwise fall back to polling
-        if WATCHDOG_AVAILABLE:
-            log("👁️ Using Real-Time Folder Monitoring (Watchdog)")
-            monitor = RealTimeFolderMonitor(incoming_path)
-        else:
-            log("⏱️ Using Polling-Based Folder Monitoring (5s interval)")
-            monitor = FolderMonitor(incoming_path, poll_interval=interval)
+        # Streamlit REQUIRES watchdog for real-time monitoring
+        log("👁️ Using Real-Time Folder Monitoring (Watchdog)")
+        monitor = RealTimeFolderMonitor(incoming_path)
 
         log("✅ Service Started - Monitoring for new files...")
 
